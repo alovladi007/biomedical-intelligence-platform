@@ -68,7 +68,7 @@ app.use('/api', limiter);
 // ============================================================================
 
 // Health check
-app.get('/health', (req: Request, res: Response) => {
+app.get('/health', (_req: Request, res: Response) => {
   res.json({
     status: process.env.DEMO_MODE === 'true' ? 'healthy' : 'degraded',
     timestamp: new Date().toISOString(),
@@ -82,12 +82,12 @@ app.get('/health', (req: Request, res: Response) => {
   });
 });
 
-app.get('/ping', (req: Request, res: Response) => {
+app.get('/ping', (_req: Request, res: Response) => {
   res.json({ status: 'ok', timestamp: new Date().toISOString() });
 });
 
 // Root endpoint
-app.get('/', (req: Request, res: Response) => {
+app.get('/', (_req: Request, res: Response) => {
   res.json({
     service: 'HIPAA Compliance Module',
     version: '1.0.0',
@@ -151,7 +151,7 @@ app.get('/api/v1/audit-logs', (req: Request, res: Response) => {
   });
 });
 
-app.get('/api/v1/compliance/report', (req: Request, res: Response) => {
+app.get('/api/v1/compliance/report', (_req: Request, res: Response) => {
   res.json({
     success: true,
     report: {
@@ -182,7 +182,7 @@ app.use((req: Request, res: Response) => {
 });
 
 // Global error handler
-app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
+app.use((err: Error, _req: Request, res: Response, _next: NextFunction) => {
   console.error('Unhandled error:', err);
 
   const statusCode = (err as any).statusCode || 500;
