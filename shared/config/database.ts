@@ -53,6 +53,12 @@ pool.on('error', (err, client) => {
 
 // Test connection
 export async function testDatabaseConnection(): Promise<boolean> {
+  // Skip database check in demo mode
+  if (process.env.DEMO_MODE === 'true') {
+    console.log('⚠️  Demo mode enabled - database not required');
+    return true;
+  }
+
   try {
     const client = await pool.connect();
     const result = await client.query('SELECT NOW()');
@@ -61,6 +67,7 @@ export async function testDatabaseConnection(): Promise<boolean> {
     return true;
   } catch (error) {
     console.error('❌ Database connection failed:', error);
+    console.log('💡 Tip: Set DEMO_MODE=true in .env to run without a database');
     return false;
   }
 }

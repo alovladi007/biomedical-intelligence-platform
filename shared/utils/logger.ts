@@ -16,6 +16,12 @@ export interface LogContext {
   userAgent?: string;
   phi_accessed?: boolean;
   requestId?: string;
+  method?: string;
+  url?: string;
+  port?: number | string;
+  environment?: string;
+  apiVersion?: string;
+  [key: string]: any; // Allow additional properties
 }
 
 // Custom log levels for healthcare

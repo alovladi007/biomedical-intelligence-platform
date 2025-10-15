@@ -1072,7 +1072,7 @@ export interface MaternalAlert {
   message: string;
   trigger: AlertTrigger;
   recommendation: string;
-  requiresImmediate Action: boolean;
+  requiresImmediateAction: boolean;
   acknowledged: boolean;
   acknowledgedBy?: string;
   acknowledgedAt?: Date;
