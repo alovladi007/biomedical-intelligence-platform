@@ -441,6 +441,7 @@ export interface LiteratureReference {
 export interface ClinicalDecisionSupport {
   alerts: ClinicalAlert[];
   guidelines: GuidelineRecommendation[];
+  treatmentRecommendations?: TreatmentRecommendation[];
   drugInteractions?: DrugInteraction[];
   patientEducation?: string[];
 }
