@@ -28,7 +28,7 @@ router.get(
       end_date,
       sort_by = 'createdAt',
       sort_order = 'desc',
-    } = req.query as any as AlertQueryParams;
+    } = req.query as any;
 
     const skip = (Number(page) - 1) * Number(page_size);
     const take = Number(page_size);

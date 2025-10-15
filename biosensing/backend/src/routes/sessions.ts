@@ -25,7 +25,7 @@ router.get(
       status,
       sort_by = 'startedAt',
       sort_order = 'desc',
-    } = req.query as any as QueryParams;
+    } = req.query as any;
 
     const skip = (Number(page) - 1) * Number(page_size);
     const take = Number(page_size);

@@ -178,7 +178,7 @@ export interface AlertQueryParams extends QueryParams {
   device_id?: string;
   patient_id?: string;
   level?: AlertLevel;
-  acknowledged?: boolean;
+  acknowledged?: string; // Query params are always strings; convert to boolean in handler
   start_date?: string;
   end_date?: string;
 }
