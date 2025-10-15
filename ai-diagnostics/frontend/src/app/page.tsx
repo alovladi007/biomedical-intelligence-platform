@@ -1,53 +1,54 @@
 'use client'
 
-import { useState, useEffect } from 'react'
-import { Brain, TrendingUp, Pill, Heart, Shield, Zap, ArrowRight, Sparkles, CheckCircle, Star, Menu, X, Play } from 'lucide-react'
+import { useState } from 'react'
+import { Brain, TrendingUp, Pill, Heart, Shield, Zap, CheckCircle, Star, Menu, X, Phone, Mail, Clock, PlayCircle, Sparkles } from 'lucide-react'
 
 export default function Home() {
-  const [scrolled, setScrolled] = useState(false)
+  const [activeTab, setActiveTab] = useState('overview')
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
-  useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 20)
-    }
-    window.addEventListener('scroll', handleScroll)
-    return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
-
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 text-white overflow-hidden">
-      {/* Animated Background */}
-      <div className="fixed inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-0 -left-4 w-72 h-72 bg-purple-500 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob"></div>
-        <div className="absolute top-0 -right-4 w-72 h-72 bg-blue-500 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob animation-delay-2000"></div>
-        <div className="absolute -bottom-8 left-20 w-72 h-72 bg-pink-500 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob animation-delay-4000"></div>
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
+      {/* Top Contact Bar */}
+      <div className="bg-blue-600 text-white py-2.5">
+        <div className="max-w-7xl mx-auto px-6 flex flex-wrap justify-between items-center text-sm gap-3">
+          <div className="flex items-center gap-5">
+            <div className="flex items-center gap-2">
+              <Phone className="h-3.5 w-3.5" />
+              <span>(800) 123-4567</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <Mail className="h-3.5 w-3.5" />
+              <span>info@aidiagnostics.com</span>
+            </div>
+          </div>
+          <div className="flex items-center gap-2">
+            <Clock className="h-3.5 w-3.5" />
+            <span>Available 24/7</span>
+          </div>
+        </div>
       </div>
 
       {/* Navigation */}
-      <nav className={`fixed top-0 w-full z-50 transition-all duration-300 ${scrolled ? 'bg-slate-900/80 backdrop-blur-xl border-b border-white/10 shadow-2xl' : 'bg-transparent'}`}>
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="flex justify-between items-center h-20">
-            <div className="flex items-center gap-3">
-              <div className="relative">
-                <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-blue-600 rounded-xl blur opacity-75"></div>
-                <div className="relative bg-gradient-to-r from-purple-600 to-blue-600 p-2 rounded-xl">
-                  <Brain className="h-6 w-6 text-white" strokeWidth={2.5} />
-                </div>
+      <nav className="bg-white shadow-sm sticky top-0 z-50">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="flex justify-between items-center h-16">
+            <div className="flex items-center gap-2.5">
+              <div className="bg-gradient-to-br from-blue-600 to-purple-600 p-2 rounded-lg">
+                <Brain className="h-6 w-6 text-white" strokeWidth={2.5} />
               </div>
-              <span className="text-xl font-bold bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent">AI Diagnostics</span>
+              <div>
+                <div className="text-lg font-bold text-gray-900">AI Diagnostics</div>
+                <div className="text-xs text-gray-500">Clinical Intelligence</div>
+              </div>
             </div>
 
-            <div className="hidden md:flex items-center gap-8">
-              <a href="#features" className="text-sm font-medium text-gray-300 hover:text-white transition-colors">Features</a>
-              <a href="#how-it-works" className="text-sm font-medium text-gray-300 hover:text-white transition-colors">How It Works</a>
-              <a href="#pricing" className="text-sm font-medium text-gray-300 hover:text-white transition-colors">Pricing</a>
-              <a href="#" className="text-sm font-medium text-gray-300 hover:text-white transition-colors">Sign In</a>
-              <button className="relative group">
-                <div className="absolute -inset-1 bg-gradient-to-r from-purple-600 to-blue-600 rounded-xl blur opacity-75 group-hover:opacity-100 transition"></div>
-                <div className="relative px-6 py-2.5 bg-gradient-to-r from-purple-600 to-blue-600 rounded-xl text-white font-semibold text-sm">
-                  Get Started
-                </div>
+            <div className="hidden md:flex items-center gap-6">
+              <a href="#features" className="text-sm font-medium text-gray-700 hover:text-blue-600">Features</a>
+              <a href="#testimonials" className="text-sm font-medium text-gray-700 hover:text-blue-600">Testimonials</a>
+              <a href="#" className="text-sm font-medium text-gray-700 hover:text-blue-600">Contact</a>
+              <button className="px-5 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold rounded-lg transition shadow-md">
+                Get Started
               </button>
             </div>
 
@@ -56,266 +57,251 @@ export default function Home() {
             </button>
           </div>
         </div>
-
-        {/* Mobile Menu */}
-        {mobileMenuOpen && (
-          <div className="md:hidden bg-slate-900/95 backdrop-blur-xl border-t border-white/10">
-            <div className="px-6 py-4 space-y-3">
-              <a href="#features" className="block text-sm font-medium text-gray-300 hover:text-white transition-colors py-2">Features</a>
-              <a href="#how-it-works" className="block text-sm font-medium text-gray-300 hover:text-white transition-colors py-2">How It Works</a>
-              <a href="#pricing" className="block text-sm font-medium text-gray-300 hover:text-white transition-colors py-2">Pricing</a>
-              <a href="#" className="block text-sm font-medium text-gray-300 hover:text-white transition-colors py-2">Sign In</a>
-              <button className="w-full bg-gradient-to-r from-purple-600 to-blue-600 px-6 py-2.5 rounded-xl text-white font-semibold text-sm">
-                Get Started
-              </button>
-            </div>
-          </div>
-        )}
       </nav>
 
-      {/* Hero Section */}
-      <section className="relative pt-32 pb-20 px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto relative z-10">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            {/* Left Column */}
-            <div className="space-y-8">
-              <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md border border-white/20 px-4 py-2 rounded-full text-sm font-medium">
-                <Sparkles className="h-4 w-4 text-purple-400" />
-                <span className="bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent">New: FDA-Cleared AI Technology</span>
+      {/* Hero Section - Compact */}
+      <section className="py-12 px-6">
+        <div className="max-w-7xl mx-auto">
+          <div className="grid lg:grid-cols-5 gap-8">
+            {/* Left: Main Info */}
+            <div className="lg:col-span-3 space-y-6">
+              <div className="inline-flex items-center gap-2 bg-green-50 border border-green-200 text-green-700 px-3 py-1.5 rounded-full text-xs font-semibold">
+                <CheckCircle className="h-3.5 w-3.5" />
+                FDA-Cleared • HIPAA Compliant
               </div>
 
-              <h1 className="text-5xl lg:text-7xl font-extrabold leading-tight">
-                <span className="bg-gradient-to-r from-white via-purple-200 to-blue-200 bg-clip-text text-transparent">
-                  Clinical decisions
-                </span>
-                <br />
-                <span className="bg-gradient-to-r from-purple-400 via-blue-400 to-cyan-400 bg-clip-text text-transparent">
-                  powered by AI
-                </span>
+              <h1 className="text-4xl lg:text-5xl font-extrabold text-gray-900 leading-tight">
+                Clinical Decisions Powered by
+                <span className="text-blue-600"> Artificial Intelligence</span>
               </h1>
 
-              <p className="text-xl text-gray-300 leading-relaxed max-w-xl">
-                Transform patient care with advanced machine learning. Accurate disease detection, risk assessment, and evidence-based recommendations in seconds.
+              <p className="text-lg text-gray-600">
+                Transform patient care with advanced machine learning. Accurate disease detection, risk assessment, and evidence-based clinical recommendations.
               </p>
 
-              <div className="flex flex-col sm:flex-row gap-4">
-                <button className="group relative">
-                  <div className="absolute -inset-1 bg-gradient-to-r from-purple-600 to-blue-600 rounded-2xl blur opacity-75 group-hover:opacity-100 transition"></div>
-                  <div className="relative flex items-center justify-center gap-2 px-8 py-4 bg-gradient-to-r from-purple-600 to-blue-600 rounded-2xl text-white font-semibold shadow-2xl">
-                    Start Free Trial
-                    <ArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform" />
-                  </div>
+              <div className="flex flex-wrap gap-3">
+                <button className="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition shadow-lg">
+                  <Sparkles className="h-4 w-4" />
+                  Start Free Trial
                 </button>
-                <button className="flex items-center justify-center gap-2 px-8 py-4 bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl font-semibold hover:bg-white/20 transition">
-                  <Play className="h-5 w-5" />
+                <button className="inline-flex items-center gap-2 px-6 py-3 bg-white border-2 border-gray-300 text-gray-700 font-semibold rounded-lg hover:border-blue-600 hover:text-blue-600 transition">
+                  <PlayCircle className="h-4 w-4" />
                   Watch Demo
                 </button>
               </div>
+            </div>
 
-              {/* Trust Badges */}
-              <div className="flex flex-wrap items-center gap-6 pt-4">
-                <div className="flex items-center gap-2 text-sm">
-                  <CheckCircle className="h-5 w-5 text-green-400" />
-                  <span className="text-gray-300">HIPAA Compliant</span>
+            {/* Right: Stats Grid */}
+            <div className="lg:col-span-2">
+              <div className="bg-white rounded-2xl shadow-xl border border-gray-100 p-6">
+                <h3 className="text-lg font-bold text-gray-900 mb-4">Platform Metrics</h3>
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl p-4 text-center">
+                    <div className="text-3xl font-extrabold text-blue-600">10+</div>
+                    <div className="text-xs text-gray-600 font-medium mt-1">Years</div>
+                  </div>
+                  <div className="bg-gradient-to-br from-green-50 to-green-100 rounded-xl p-4 text-center">
+                    <div className="text-3xl font-extrabold text-green-600">500+</div>
+                    <div className="text-xs text-gray-600 font-medium mt-1">Partners</div>
+                  </div>
+                  <div className="bg-gradient-to-br from-purple-50 to-purple-100 rounded-xl p-4 text-center">
+                    <div className="text-3xl font-extrabold text-purple-600">1M+</div>
+                    <div className="text-xs text-gray-600 font-medium mt-1">Diagnoses</div>
+                  </div>
+                  <div className="bg-gradient-to-br from-orange-50 to-orange-100 rounded-xl p-4 text-center">
+                    <div className="text-3xl font-extrabold text-orange-600">99.7%</div>
+                    <div className="text-xs text-gray-600 font-medium mt-1">Accuracy</div>
+                  </div>
                 </div>
-                <div className="flex items-center gap-2 text-sm">
-                  <CheckCircle className="h-5 w-5 text-green-400" />
-                  <span className="text-gray-300">SOC 2 Certified</span>
-                </div>
-                <div className="flex items-center gap-2 text-sm">
-                  <CheckCircle className="h-5 w-5 text-green-400" />
-                  <span className="text-gray-300">99.9% Uptime</span>
+                <div className="mt-4 pt-4 border-t border-gray-200 text-center">
+                  <div className="flex justify-center gap-1 mb-2">
+                    {[...Array(5)].map((_, i) => (
+                      <Star key={i} className="h-4 w-4 fill-yellow-400 text-yellow-400" />
+                    ))}
+                  </div>
+                  <p className="text-xs text-gray-600">Rated 5.0 by 200+ professionals</p>
                 </div>
               </div>
             </div>
+          </div>
+        </div>
+      </section>
 
-            {/* Right Column - Dashboard Preview */}
-            <div className="relative">
-              {/* Glow Effect */}
-              <div className="absolute inset-0 bg-gradient-to-r from-purple-500/30 to-blue-500/30 rounded-3xl blur-3xl"></div>
+      {/* Interactive Tabs Section */}
+      <section className="py-8 px-6">
+        <div className="max-w-7xl mx-auto">
+          <div className="bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden">
+            {/* Tabs */}
+            <div className="border-b border-gray-200 bg-gray-50">
+              <div className="flex overflow-x-auto">
+                {['overview', 'capabilities', 'technology'].map((tab) => (
+                  <button
+                    key={tab}
+                    onClick={() => setActiveTab(tab)}
+                    className={`px-6 py-4 text-sm font-semibold capitalize whitespace-nowrap transition ${
+                      activeTab === tab
+                        ? 'text-blue-600 border-b-2 border-blue-600 bg-white'
+                        : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
+                    }`}
+                  >
+                    {tab}
+                  </button>
+                ))}
+              </div>
+            </div>
 
-              {/* Glass Card */}
-              <div className="relative bg-white/10 backdrop-blur-xl border border-white/20 rounded-3xl p-8 shadow-2xl">
-                <div className="bg-gradient-to-br from-purple-900/50 to-blue-900/50 backdrop-blur-sm rounded-2xl p-6 border border-white/10">
-                  {/* Header */}
-                  <div className="flex items-center gap-3 mb-6">
-                    <div className="bg-gradient-to-r from-purple-500 to-blue-500 p-2.5 rounded-xl">
-                      <Brain className="h-6 w-6 text-white" />
-                    </div>
-                    <div>
-                      <div className="text-sm font-bold text-white">Patient Analysis</div>
-                      <div className="text-xs text-gray-400">Real-time diagnostic insights</div>
-                    </div>
-                  </div>
-
-                  {/* Stats Grid */}
-                  <div className="grid grid-cols-2 gap-4 mb-6">
-                    <div className="bg-gradient-to-br from-green-500/20 to-emerald-500/20 backdrop-blur-sm p-4 rounded-xl border border-green-500/30">
-                      <div className="text-3xl font-bold text-green-400 mb-1">99.7%</div>
-                      <div className="text-xs text-gray-300">Accuracy</div>
-                    </div>
-                    <div className="bg-gradient-to-br from-blue-500/20 to-cyan-500/20 backdrop-blur-sm p-4 rounded-xl border border-blue-500/30">
-                      <div className="text-3xl font-bold text-blue-400 mb-1">&lt;2s</div>
-                      <div className="text-xs text-gray-300">Response Time</div>
-                    </div>
-                  </div>
-
-                  {/* Progress Bars */}
+            {/* Tab Content */}
+            <div className="p-8">
+              {activeTab === 'overview' && (
+                <div className="grid md:grid-cols-2 gap-6">
                   <div className="space-y-4">
-                    <div>
-                      <div className="flex justify-between text-xs mb-2">
-                        <span className="text-gray-300">Disease Detection</span>
-                        <span className="text-white font-semibold">97%</span>
+                    <h3 className="text-2xl font-bold text-gray-900">AI-Powered Clinical Excellence</h3>
+                    <p className="text-gray-600 leading-relaxed">
+                      Our platform combines cutting-edge machine learning with clinical expertise to deliver accurate diagnoses, proactive risk assessment, and personalized treatment recommendations.
+                    </p>
+                    <div className="space-y-3">
+                      {['50+ conditions detected with 99.7% accuracy', 'Real-time risk assessment and alerts', 'Evidence-based treatment recommendations', 'HIPAA compliant with SOC 2 certification'].map((item, idx) => (
+                        <div key={idx} className="flex items-center gap-3">
+                          <CheckCircle className="h-5 w-5 text-green-600 flex-shrink-0" />
+                          <span className="text-gray-700">{item}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                  <div className="grid grid-cols-2 gap-4">
+                    {[
+                      { icon: Brain, title: 'AI Diagnostics', color: 'bg-blue-50 text-blue-600' },
+                      { icon: TrendingUp, title: 'Risk Analysis', color: 'bg-green-50 text-green-600' },
+                      { icon: Heart, title: 'Clinical Support', color: 'bg-pink-50 text-pink-600' },
+                      { icon: Shield, title: 'Security', color: 'bg-red-50 text-red-600' },
+                    ].map((item, idx) => (
+                      <div key={idx} className={`${item.color} rounded-xl p-5 hover:scale-105 transition cursor-pointer`}>
+                        <item.icon className="h-8 w-8 mb-3" />
+                        <div className="font-bold text-sm">{item.title}</div>
                       </div>
-                      <div className="h-2 bg-white/10 rounded-full overflow-hidden">
-                        <div className="h-full bg-gradient-to-r from-purple-500 to-blue-500 rounded-full" style={{width: '97%'}}></div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {activeTab === 'capabilities' && (
+                <div className="space-y-6">
+                  <h3 className="text-2xl font-bold text-gray-900 mb-6">Core Capabilities</h3>
+                  <div className="grid md:grid-cols-3 gap-6">
+                    {[
+                      {
+                        icon: Brain,
+                        title: 'Disease Detection',
+                        desc: '99.7% accuracy across 50+ medical conditions',
+                        color: 'border-blue-500'
+                      },
+                      {
+                        icon: TrendingUp,
+                        title: 'Predictive Analytics',
+                        desc: 'Identify high-risk patients proactively',
+                        color: 'border-green-500'
+                      },
+                      {
+                        icon: Heart,
+                        title: 'Treatment Plans',
+                        desc: 'Evidence-based clinical recommendations',
+                        color: 'border-pink-500'
+                      },
+                      {
+                        icon: Pill,
+                        title: 'Drug Discovery',
+                        desc: 'AI-powered compound generation',
+                        color: 'border-orange-500'
+                      },
+                      {
+                        icon: Shield,
+                        title: 'Data Security',
+                        desc: 'Enterprise-grade protection',
+                        color: 'border-red-500'
+                      },
+                      {
+                        icon: Zap,
+                        title: 'Real-Time Insights',
+                        desc: 'Instant analysis and alerts',
+                        color: 'border-purple-500'
+                      },
+                    ].map((cap, idx) => (
+                      <div key={idx} className={`border-l-4 ${cap.color} bg-gray-50 rounded-lg p-5 hover:shadow-lg transition`}>
+                        <cap.icon className="h-8 w-8 text-gray-700 mb-3" />
+                        <div className="font-bold text-lg text-gray-900 mb-2">{cap.title}</div>
+                        <div className="text-sm text-gray-600">{cap.desc}</div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {activeTab === 'technology' && (
+                <div className="grid md:grid-cols-2 gap-8">
+                  <div className="space-y-6">
+                    <h3 className="text-2xl font-bold text-gray-900">Advanced AI Technology</h3>
+                    <div className="space-y-4">
+                      <div className="bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl p-5">
+                        <div className="font-bold text-gray-900 mb-2">Deep Learning Models</div>
+                        <div className="text-sm text-gray-600">State-of-the-art neural networks trained on millions of cases</div>
+                      </div>
+                      <div className="bg-gradient-to-br from-green-50 to-green-100 rounded-xl p-5">
+                        <div className="font-bold text-gray-900 mb-2">Explainable AI</div>
+                        <div className="text-sm text-gray-600">Transparent decision-making with full audit trails</div>
+                      </div>
+                      <div className="bg-gradient-to-br from-purple-50 to-purple-100 rounded-xl p-5">
+                        <div className="font-bold text-gray-900 mb-2">Continuous Learning</div>
+                        <div className="text-sm text-gray-600">Models improve with each new case analyzed</div>
                       </div>
                     </div>
-                    <div>
-                      <div className="flex justify-between text-xs mb-2">
-                        <span className="text-gray-300">Risk Assessment</span>
-                        <span className="text-white font-semibold">94%</span>
-                      </div>
-                      <div className="h-2 bg-white/10 rounded-full overflow-hidden">
-                        <div className="h-full bg-gradient-to-r from-green-500 to-emerald-500 rounded-full" style={{width: '94%'}}></div>
-                      </div>
-                    </div>
-                    <div>
-                      <div className="flex justify-between text-xs mb-2">
-                        <span className="text-gray-300">Treatment Recommendations</span>
-                        <span className="text-white font-semibold">98%</span>
-                      </div>
-                      <div className="h-2 bg-white/10 rounded-full overflow-hidden">
-                        <div className="h-full bg-gradient-to-r from-pink-500 to-purple-500 rounded-full" style={{width: '98%'}}></div>
+                  </div>
+                  <div className="space-y-4">
+                    <h3 className="text-xl font-bold text-gray-900">Integration</h3>
+                    <p className="text-gray-600 leading-relaxed">
+                      Seamlessly connects with your existing healthcare infrastructure including EHR systems, medical devices, and clinical workflows.
+                    </p>
+                    <div className="bg-white border border-gray-200 rounded-xl p-6">
+                      <div className="space-y-3">
+                        {['EHR/EMR Systems', 'Medical Device APIs', 'PACS Integration', 'HL7/FHIR Standards', 'Cloud & On-Premise'].map((item, idx) => (
+                          <div key={idx} className="flex items-center justify-between py-2 border-b border-gray-100 last:border-0">
+                            <span className="text-sm text-gray-700">{item}</span>
+                            <CheckCircle className="h-5 w-5 text-green-600" />
+                          </div>
+                        ))}
                       </div>
                     </div>
                   </div>
                 </div>
-              </div>
-
-              {/* Floating Stat Card */}
-              <div className="absolute -bottom-6 -left-6 bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl p-5 shadow-2xl">
-                <div className="text-4xl font-bold bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent">1M+</div>
-                <div className="text-sm text-gray-300">Diagnoses Processed</div>
-              </div>
+              )}
             </div>
           </div>
         </div>
       </section>
 
-      {/* Social Proof */}
-      <section className="py-16 px-6 lg:px-8 relative">
+      {/* Testimonials - Compact */}
+      <section id="testimonials" className="py-8 px-6">
         <div className="max-w-7xl mx-auto">
-          <p className="text-center text-sm text-gray-400 mb-8">Trusted by leading healthcare organizations</p>
-          <div className="flex justify-center items-center gap-12 flex-wrap">
-            {['Mayo Clinic', 'Cleveland Clinic', 'Johns Hopkins', 'Stanford Health'].map((org) => (
-              <div key={org} className="text-2xl font-bold text-gray-500/50 hover:text-gray-400 transition-colors cursor-pointer">
-                {org}
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Features Section */}
-      <section id="features" className="py-24 px-6 lg:px-8 relative">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl lg:text-5xl font-bold mb-4">
-              <span className="bg-gradient-to-r from-white to-gray-400 bg-clip-text text-transparent">
-                Everything you need for
-              </span>
-              <br />
-              <span className="bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent">
-                clinical excellence
-              </span>
-            </h2>
-            <p className="text-lg text-gray-400 max-w-2xl mx-auto">
-              Comprehensive AI tools designed to support every aspect of patient care
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {[
-              { icon: Brain, title: 'AI Diagnostics', desc: '99.7% accuracy across 50+ conditions with explainable AI insights', color: 'from-blue-500 to-cyan-500' },
-              { icon: TrendingUp, title: 'Risk Assessment', desc: 'Predictive analytics for proactive patient care management', color: 'from-green-500 to-emerald-500' },
-              { icon: Heart, title: 'Clinical Support', desc: 'Evidence-based treatment recommendations from clinical guidelines', color: 'from-pink-500 to-rose-500' },
-              { icon: Pill, title: 'Drug Discovery', desc: 'AI-powered compound generation and molecular optimization', color: 'from-orange-500 to-amber-500' },
-              { icon: Shield, title: 'HIPAA Compliant', desc: 'Enterprise security with end-to-end encryption and audit logs', color: 'from-red-500 to-pink-500' },
-              { icon: Zap, title: 'Real-Time Analytics', desc: 'Live dashboards with instant insights and automated alerts', color: 'from-purple-500 to-indigo-500' },
-            ].map((feature, idx) => (
-              <div key={idx} className="group relative">
-                <div className="absolute inset-0 bg-gradient-to-r opacity-0 group-hover:opacity-100 blur-xl transition-opacity" style={{background: `linear-gradient(to right, var(--tw-gradient-stops))`}}></div>
-                <div className="relative bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-6 hover:bg-white/10 transition-all hover:scale-105 hover:border-white/20">
-                  <div className={`bg-gradient-to-r ${feature.color} w-12 h-12 rounded-xl flex items-center justify-center mb-4 shadow-lg`}>
-                    <feature.icon className="h-6 w-6 text-white" />
-                  </div>
-                  <h3 className="text-lg font-bold text-white mb-2">{feature.title}</h3>
-                  <p className="text-gray-400 text-sm leading-relaxed">{feature.desc}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* How It Works */}
-      <section id="how-it-works" className="py-24 px-6 lg:px-8 relative">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl lg:text-5xl font-bold mb-4 bg-gradient-to-r from-white to-gray-400 bg-clip-text text-transparent">
-              How it works
-            </h2>
-            <p className="text-lg text-gray-400">
-              Get started in minutes, not months
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-3 gap-8">
-            {[
-              { num: '1', title: 'Connect Your Data', desc: 'Seamlessly integrate with your existing EHR systems and medical devices' },
-              { num: '2', title: 'AI Analysis', desc: 'Our models analyze patient data in real-time across 50+ conditions' },
-              { num: '3', title: 'Actionable Insights', desc: 'Receive evidence-based recommendations to support clinical decisions' },
-            ].map((step, idx) => (
-              <div key={idx} className="relative bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-8 hover:bg-white/10 transition-all">
-                <div className="absolute -top-5 left-8 bg-gradient-to-r from-purple-600 to-blue-600 text-white w-10 h-10 rounded-full flex items-center justify-center font-bold text-lg shadow-lg">
-                  {step.num}
-                </div>
-                <h3 className="text-xl font-bold text-white mb-3 mt-4">{step.title}</h3>
-                <p className="text-gray-400 leading-relaxed">{step.desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Testimonials */}
-      <section className="py-24 px-6 lg:px-8 relative">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl lg:text-5xl font-bold mb-4 bg-gradient-to-r from-white to-gray-400 bg-clip-text text-transparent">
-              Loved by healthcare professionals
-            </h2>
-          </div>
-
+          <h2 className="text-3xl font-bold text-gray-900 mb-6 text-center">Trusted by Healthcare Leaders</h2>
           <div className="grid md:grid-cols-3 gap-6">
             {[
-              { name: 'Dr. Sarah Chen', role: 'Chief Medical Officer', quote: 'AI Diagnostics has transformed how we approach patient care. The accuracy is remarkable.' },
-              { name: 'Dr. Michael Rodriguez', role: 'Head of Cardiology', quote: 'The real-time analytics have helped us identify high-risk patients earlier than ever before.' },
-              { name: 'Dr. Emily Watson', role: 'Director of Emergency Medicine', quote: 'Implementation was seamless, and the support team is incredibly responsive.' },
-            ].map((testimonial, idx) => (
-              <div key={idx} className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-6 hover:bg-white/10 transition-all">
-                <div className="flex gap-1 mb-4">
+              { name: 'Dr. Sarah Chen', role: 'Chief Medical Officer', quote: 'AI Diagnostics has transformed our approach to patient care. Remarkable accuracy.' },
+              { name: 'Dr. Michael Rodriguez', role: 'Head of Cardiology', quote: 'Real-time analytics help us identify high-risk patients earlier than ever.' },
+              { name: 'Dr. Emily Watson', role: 'Director of Emergency Medicine', quote: 'Seamless implementation and incredibly responsive support team.' },
+            ].map((t, idx) => (
+              <div key={idx} className="bg-white border border-gray-200 rounded-xl p-6 hover:shadow-xl transition">
+                <div className="flex gap-1 mb-3">
                   {[...Array(5)].map((_, i) => (
-                    <Star key={i} className="h-5 w-5 fill-yellow-400 text-yellow-400" />
+                    <Star key={i} className="h-4 w-4 fill-yellow-400 text-yellow-400" />
                   ))}
                 </div>
-                <p className="text-gray-300 mb-6 leading-relaxed">"{testimonial.quote}"</p>
+                <p className="text-sm text-gray-700 italic mb-4">"{t.quote}"</p>
                 <div className="flex items-center gap-3">
-                  <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-blue-500 rounded-full"></div>
+                  <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full flex items-center justify-center text-white font-bold text-sm">
+                    {t.name.split(' ').map(n => n[0]).join('')}
+                  </div>
                   <div>
-                    <div className="font-semibold text-white">{testimonial.name}</div>
-                    <div className="text-sm text-gray-400">{testimonial.role}</div>
+                    <div className="font-bold text-sm text-gray-900">{t.name}</div>
+                    <div className="text-xs text-gray-600">{t.role}</div>
                   </div>
                 </div>
               </div>
@@ -324,64 +310,53 @@ export default function Home() {
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="py-24 px-6 lg:px-8 relative">
-        <div className="max-w-4xl mx-auto text-center">
-          <div className="relative bg-gradient-to-r from-purple-600/20 to-blue-600/20 backdrop-blur-xl border border-white/20 rounded-3xl p-12 shadow-2xl">
-            <div className="absolute inset-0 bg-gradient-to-r from-purple-600/10 to-blue-600/10 rounded-3xl blur-2xl"></div>
-            <div className="relative">
-              <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
-                Ready to get started?
-              </h2>
-              <p className="text-xl text-gray-300 mb-10">
-                Join thousands of healthcare providers transforming patient care with AI
-              </p>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <button className="group relative">
-                  <div className="absolute -inset-1 bg-gradient-to-r from-purple-600 to-blue-600 rounded-2xl blur opacity-75 group-hover:opacity-100 transition"></div>
-                  <div className="relative px-8 py-4 bg-white text-purple-600 rounded-2xl font-bold shadow-xl">
-                    Start Free Trial
-                  </div>
-                </button>
-                <button className="px-8 py-4 bg-white/10 backdrop-blur-sm border-2 border-white/30 rounded-2xl font-bold hover:bg-white/20 transition">
-                  Schedule Demo
-                </button>
-              </div>
+      {/* CTA - Compact */}
+      <section className="py-12 px-6">
+        <div className="max-w-4xl mx-auto">
+          <div className="bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl p-10 text-center text-white shadow-2xl">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">Ready to Transform Patient Care?</h2>
+            <p className="text-lg mb-6 opacity-90">Join 500+ healthcare organizations improving outcomes with AI</p>
+            <div className="flex flex-wrap gap-4 justify-center">
+              <button className="px-7 py-3 bg-white text-blue-600 font-bold rounded-lg hover:bg-gray-100 transition shadow-xl">
+                Start Free Trial
+              </button>
+              <button className="px-7 py-3 bg-transparent border-2 border-white text-white font-bold rounded-lg hover:bg-white hover:text-blue-600 transition">
+                Schedule Demo
+              </button>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="bg-black/40 backdrop-blur-xl border-t border-white/10 py-16">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="grid md:grid-cols-5 gap-8 mb-12">
-            <div className="md:col-span-2">
-              <div className="flex items-center gap-3 mb-4">
-                <div className="bg-gradient-to-r from-purple-600 to-blue-600 p-2 rounded-xl">
-                  <Brain className="h-6 w-6 text-white" />
+      {/* Footer - Compact */}
+      <footer className="bg-gray-900 text-white py-12">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="grid md:grid-cols-4 gap-8 mb-8">
+            <div className="md:col-span-1">
+              <div className="flex items-center gap-2 mb-3">
+                <div className="bg-blue-600 p-2 rounded-lg">
+                  <Brain className="h-5 w-5 text-white" />
                 </div>
-                <span className="font-bold text-lg">AI Diagnostics</span>
+                <div className="font-bold">AI Diagnostics</div>
               </div>
-              <p className="text-gray-400 text-sm mb-4 max-w-xs">
-                Advanced clinical decision support powered by machine learning
-              </p>
-              <p className="text-gray-500 text-xs">
-                © 2025 M.Y. Engineering and Technologies
-              </p>
+              <p className="text-sm text-gray-400 mb-3">Clinical intelligence powered by AI</p>
+              <div className="text-xs text-gray-400 space-y-1">
+                <div>(800) 123-4567</div>
+                <div>info@aidiagnostics.com</div>
+              </div>
             </div>
 
             {[
-              { title: 'Product', links: ['Features', 'Pricing', 'Security', 'Integrations'] },
-              { title: 'Company', links: ['About', 'Careers', 'Contact', 'Blog'] },
-              { title: 'Legal', links: ['Privacy', 'Terms', 'HIPAA', 'Compliance'] },
+              { title: 'Services', links: ['AI Diagnostics', 'Risk Assessment', 'Clinical Support'] },
+              { title: 'Company', links: ['About', 'Careers', 'Contact'] },
+              { title: 'Legal', links: ['Privacy', 'Terms', 'HIPAA'] },
             ].map((col, idx) => (
               <div key={idx}>
-                <h3 className="font-semibold mb-4 text-sm text-white">{col.title}</h3>
+                <h3 className="font-bold mb-3 text-sm">{col.title}</h3>
                 <ul className="space-y-2">
                   {col.links.map((link) => (
                     <li key={link}>
-                      <a href="#" className="text-sm text-gray-400 hover:text-white transition-colors">{link}</a>
+                      <a href="#" className="text-xs text-gray-400 hover:text-white transition">{link}</a>
                     </li>
                   ))}
                 </ul>
@@ -389,36 +364,11 @@ export default function Home() {
             ))}
           </div>
 
-          <div className="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
-            <p className="text-sm text-gray-400">
-              Powered by Advanced Machine Learning
-            </p>
-            <div className="flex gap-6">
-              {['Twitter', 'LinkedIn', 'GitHub'].map((social) => (
-                <a key={social} href="#" className="text-gray-400 hover:text-white transition-colors text-sm">{social}</a>
-              ))}
-            </div>
+          <div className="border-t border-gray-800 pt-6 text-center text-xs text-gray-400">
+            © 2025 M.Y. Engineering and Technologies. All rights reserved.
           </div>
         </div>
       </footer>
-
-      <style jsx>{`
-        @keyframes blob {
-          0% { transform: translate(0px, 0px) scale(1); }
-          33% { transform: translate(30px, -50px) scale(1.1); }
-          66% { transform: translate(-20px, 20px) scale(0.9); }
-          100% { transform: translate(0px, 0px) scale(1); }
-        }
-        .animate-blob {
-          animation: blob 7s infinite;
-        }
-        .animation-delay-2000 {
-          animation-delay: 2s;
-        }
-        .animation-delay-4000 {
-          animation-delay: 4s;
-        }
-      `}</style>
     </div>
   )
 }
