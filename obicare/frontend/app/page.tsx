@@ -20,7 +20,7 @@ export default function Home() {
             </div>
             <div className="flex items-center gap-2">
               <Mail className="h-3.5 w-3.5" />
-              <span>care@mynxnatal.com</span>
+              <span>care@obicare.health</span>
             </div>
           </div>
           <div className="flex items-center gap-2">
@@ -39,8 +39,8 @@ export default function Home() {
                 <Heart className="h-6 w-6 text-white" strokeWidth={2.5} />
               </div>
               <div>
-                <div className="text-lg font-bold text-gray-900">MYNX NatalCare</div>
-                <div className="text-xs text-gray-500">Maternal Health</div>
+                <div className="text-lg font-bold text-gray-900">OBiCare</div>
+                <div className="text-xs text-gray-500">Obstetric Intelligence Care</div>
               </div>
             </div>
 
@@ -251,7 +251,7 @@ export default function Home() {
           <h2 className="text-3xl font-bold text-gray-900 mb-6 text-center">Trusted by Expectant Mothers</h2>
           <div className="grid md:grid-cols-3 gap-6">
             {[
-              { name: 'Jessica Martinez', role: 'First-Time Mother', quote: 'MYNX NatalCare made my pregnancy journey so much easier. The app is intuitive and supportive.' },
+              { name: 'Jessica Martinez', role: 'First-Time Mother', quote: 'OBiCare made my pregnancy journey so much easier. The app is intuitive and supportive.' },
               { name: 'Dr. Karen White', role: 'OB-GYN', quote: 'Excellent platform for prenatal monitoring. My patients love the appointment reminders and vitals tracking.' },
               { name: 'Maria Chen', role: 'Expecting Mother', quote: 'The risk assessment feature gave me peace of mind. Care team was always responsive and helpful.' },
             ].map((t, idx) => (
@@ -282,7 +282,7 @@ export default function Home() {
         <div className="max-w-4xl mx-auto">
           <div className="bg-gradient-to-r from-pink-600 to-rose-600 rounded-2xl p-10 text-center text-white shadow-2xl">
             <h2 className="text-3xl md:text-4xl font-bold mb-4">Ready for Better Maternal Care?</h2>
-            <p className="text-lg mb-6 opacity-90">Join 5,000+ mothers and 100+ providers using MYNX</p>
+            <p className="text-lg mb-6 opacity-90">Join 5,000+ mothers and 100+ providers using OBiCare</p>
             <div className="flex flex-wrap gap-4 justify-center">
               <Link href="/dashboard" className="px-7 py-3 bg-white text-pink-600 font-bold rounded-lg hover:bg-gray-100 transition shadow-xl">
                 Open Dashboard
@@ -304,12 +304,12 @@ export default function Home() {
                 <div className="bg-pink-600 p-2 rounded-lg">
                   <Heart className="h-5 w-5 text-white" />
                 </div>
-                <div className="font-bold">MYNX NatalCare</div>
+                <div className="font-bold">OBiCare</div>
               </div>
-              <p className="text-sm text-gray-400 mb-3">Maternal health monitoring</p>
+              <p className="text-sm text-gray-400 mb-3">Obstetric Intelligence Care</p>
               <div className="text-xs text-gray-400 space-y-1">
                 <div>(800) 234-5678</div>
-                <div>care@mynxnatal.com</div>
+                <div>care@obicare.health</div>
               </div>
             </div>
 

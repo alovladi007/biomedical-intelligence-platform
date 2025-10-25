@@ -94,7 +94,7 @@ export default function Dashboard() {
               <Heart className="h-6 w-6 text-white" />
             </div>
             <div>
-              <div className="font-bold text-gray-900">MYNX NatalCare</div>
+              <div className="font-bold text-gray-900">OBiCare</div>
               <div className="text-xs text-gray-500">Dashboard</div>
             </div>
           </Link>

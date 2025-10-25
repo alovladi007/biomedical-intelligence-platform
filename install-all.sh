@@ -17,7 +17,7 @@ SERVICES=(
   "biosensing"
   "hipaa-compliance"
   "biotensor-labs"
-  "mynx-natalcare"
+  "obicare"
   "genomic-intelligence"
   "drug-discovery-ai"
 )

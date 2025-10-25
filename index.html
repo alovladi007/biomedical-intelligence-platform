@@ -3,22 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BioMedical Intelligence Platform</title>
+    <title>BioMedical Intelligence Platform - Enterprise Healthcare AI</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
-        .fade-in {
-            animation: fadeIn 0.6s ease-out forwards;
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.8; }
         }
-        .service-card:hover {
-            transform: translateY(-4px);
-        }
+        .fade-in { animation: fadeIn 0.6s ease-out forwards; }
+        .service-card:hover { transform: translateY(-4px); transition: all 0.3s ease; }
+        .pulse-animation { animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
     </style>
 </head>
-<body class="bg-gradient-to-br from-blue-50 via-white to-purple-50 min-h-screen">
+<body class="bg-white">
     <!-- Top Contact Bar -->
     <div class="bg-gradient-to-r from-blue-600 to-purple-600 text-white py-2.5">
         <div class="max-w-7xl mx-auto px-6 flex flex-wrap justify-between items-center text-sm gap-3">
@@ -46,27 +47,28 @@
     </div>
 
     <!-- Navigation -->
-    <nav class="bg-white shadow-sm sticky top-0 z-50">
+    <nav class="bg-white shadow-md sticky top-0 z-50 border-b border-gray-200">
         <div class="max-w-7xl mx-auto px-6">
             <div class="flex justify-between items-center h-16">
                 <div class="flex items-center gap-3">
-                    <div class="bg-gradient-to-br from-blue-600 to-purple-600 p-2 rounded-lg">
+                    <div class="bg-gradient-to-br from-blue-600 to-purple-600 p-2.5 rounded-xl shadow-lg">
                         <svg class="h-6 w-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"/>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z"/>
                         </svg>
                     </div>
                     <div>
                         <div class="text-lg font-bold text-gray-900">BioMedical Intelligence</div>
-                        <div class="text-xs text-gray-500">Enterprise Healthcare Platform</div>
+                        <div class="text-xs text-gray-500">Enterprise Healthcare AI Platform</div>
                     </div>
                 </div>
 
                 <div class="hidden md:flex items-center gap-6">
-                    <a href="#services" class="text-sm font-medium text-gray-700 hover:text-blue-600 transition">Services</a>
-                    <a href="#features" class="text-sm font-medium text-gray-700 hover:text-blue-600 transition">Features</a>
-                    <a href="#technology" class="text-sm font-medium text-gray-700 hover:text-blue-600 transition">Technology</a>
-                    <a href="https://github.com/alovladi007/biomedical-intelligence-platform" class="text-sm font-medium text-gray-700 hover:text-blue-600 transition">GitHub</a>
-                    <button class="px-5 py-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white text-sm font-semibold rounded-lg transition shadow-md hover:shadow-lg">
+                    <a href="#services" class="text-sm font-semibold text-gray-700 hover:text-blue-600 transition">Services</a>
+                    <a href="#how-it-works" class="text-sm font-semibold text-gray-700 hover:text-blue-600 transition">How It Works</a>
+                    <a href="#enterprise" class="text-sm font-semibold text-gray-700 hover:text-blue-600 transition">Enterprise</a>
+                    <a href="#technology" class="text-sm font-semibold text-gray-700 hover:text-blue-600 transition">Technology</a>
+                    <a href="https://github.com/alovladi007/biomedical-intelligence-platform" class="text-sm font-semibold text-gray-700 hover:text-blue-600 transition">GitHub</a>
+                    <button class="px-6 py-2.5 bg-gradient-to-r from-blue-600 to-purple-600 text-white text-sm font-bold rounded-lg transition shadow-lg hover:shadow-xl">
                         Get Started
                     </button>
                 </div>
@@ -75,69 +77,59 @@
     </nav>
 
     <!-- Hero Section -->
-    <section class="py-16 px-6">
+    <section class="py-20 px-6 bg-gradient-to-br from-blue-50 via-white to-purple-50">
         <div class="max-w-7xl mx-auto">
-            <div class="grid lg:grid-cols-5 gap-12 items-center">
-                <div class="lg:col-span-3 space-y-6 fade-in">
-                    <div class="inline-flex items-center gap-2 bg-green-50 border border-green-200 text-green-700 px-3 py-1.5 rounded-full text-xs font-semibold">
-                        <svg class="h-3.5 w-3.5" fill="currentColor" viewBox="0 0 20 20">
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                <div class="space-y-6 fade-in">
+                    <div class="inline-flex items-center gap-2 bg-gradient-to-r from-green-50 to-green-100 border border-green-300 text-green-700 px-4 py-2 rounded-full text-xs font-bold shadow-sm">
+                        <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
                             <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
                         </svg>
-                        Production Ready • Enterprise Grade
+                        PRODUCTION READY • ENTERPRISE GRADE • HIPAA COMPLIANT
                     </div>
 
                     <h1 class="text-5xl lg:text-6xl font-extrabold text-gray-900 leading-tight">
-                        Complete Healthcare
-                        <span class="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent"> AI Platform</span>
+                        Next-Generation
+                        <span class="block bg-gradient-to-r from-blue-600 via-purple-600 to-blue-600 bg-clip-text text-transparent">Healthcare AI Platform</span>
                     </h1>
 
                     <p class="text-xl text-gray-600 leading-relaxed">
-                        Comprehensive healthcare technology suite with AI diagnostics, medical imaging, real-time biosensing, HIPAA compliance, MLOps, and maternal care monitoring.
+                        Comprehensive biomedical intelligence suite with AI diagnostics, genomic analysis, drug discovery, medical imaging, and real-time patient monitoring.
                     </p>
 
                     <div class="flex flex-wrap gap-4 pt-4">
-                        <button onclick="window.location.href='#services'" class="px-8 py-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold rounded-lg shadow-lg hover:shadow-xl transition">
-                            Explore Services
+                        <button onclick="window.location.href='#services'" class="px-8 py-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-bold rounded-xl shadow-xl hover:shadow-2xl transition transform hover:scale-105">
+                            Explore Platform
                         </button>
-                        <a href="https://github.com/alovladi007/biomedical-intelligence-platform" class="inline-flex items-center gap-2 px-8 py-4 bg-white border-2 border-gray-300 text-gray-700 font-semibold rounded-lg hover:border-blue-600 hover:text-blue-600 transition">
+                        <a href="https://github.com/alovladi007/biomedical-intelligence-platform" class="inline-flex items-center gap-2 px-8 py-4 bg-white border-2 border-gray-300 text-gray-700 font-bold rounded-xl hover:border-blue-600 hover:text-blue-600 transition shadow-lg">
                             <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
                                 <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
                             </svg>
-                            View on GitHub
+                            View Source
                         </a>
                     </div>
                 </div>
 
-                <div class="lg:col-span-2 fade-in">
-                    <div class="bg-white rounded-2xl shadow-2xl border border-gray-100 p-6">
-                        <h3 class="text-lg font-bold text-gray-900 mb-4">Platform Overview</h3>
-                        <div class="grid grid-cols-2 gap-4 mb-6">
-                            <div class="bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl p-4 text-center">
-                                <div class="text-3xl font-extrabold text-blue-600">8</div>
-                                <div class="text-xs text-gray-600 font-medium mt-1">Services</div>
+                <div class="fade-in">
+                    <div class="bg-white rounded-2xl shadow-2xl border border-gray-200 p-8">
+                        <h3 class="text-xl font-bold text-gray-900 mb-6">Platform Overview</h3>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl p-6 text-white text-center shadow-lg">
+                                <div class="text-4xl font-extrabold">8</div>
+                                <div class="text-sm font-semibold mt-1">AI Services</div>
                             </div>
-                            <div class="bg-gradient-to-br from-green-50 to-green-100 rounded-xl p-4 text-center">
-                                <div class="text-3xl font-extrabold text-green-600">100%</div>
-                                <div class="text-xs text-gray-600 font-medium mt-1">HIPAA</div>
+                            <div class="bg-gradient-to-br from-green-500 to-green-600 rounded-xl p-6 text-white text-center shadow-lg">
+                                <div class="text-4xl font-extrabold">100%</div>
+                                <div class="text-sm font-semibold mt-1">HIPAA</div>
                             </div>
-                            <div class="bg-gradient-to-br from-purple-50 to-purple-100 rounded-xl p-4 text-center">
-                                <div class="text-3xl font-extrabold text-purple-600">AI/ML</div>
-                                <div class="text-xs text-gray-600 font-medium mt-1">Powered</div>
+                            <div class="bg-gradient-to-br from-purple-500 to-purple-600 rounded-xl p-6 text-white text-center shadow-lg">
+                                <div class="text-4xl font-extrabold">AI/ML</div>
+                                <div class="text-sm font-semibold mt-1">Powered</div>
                             </div>
-                            <div class="bg-gradient-to-br from-orange-50 to-orange-100 rounded-xl p-4 text-center">
-                                <div class="text-3xl font-extrabold text-orange-600">24/7</div>
-                                <div class="text-xs text-gray-600 font-medium mt-1">Support</div>
+                            <div class="bg-gradient-to-br from-orange-500 to-orange-600 rounded-xl p-6 text-white text-center shadow-lg">
+                                <div class="text-4xl font-extrabold">24/7</div>
+                                <div class="text-sm font-semibold mt-1">Support</div>
                             </div>
-                        </div>
-                        <div class="border-t border-gray-200 pt-4 text-center">
-                            <div class="flex justify-center gap-1 mb-2">
-                                <svg class="h-5 w-5 text-yellow-400 fill-yellow-400" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
-                                <svg class="h-5 w-5 text-yellow-400 fill-yellow-400" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
-                                <svg class="h-5 w-5 text-yellow-400 fill-yellow-400" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
-                                <svg class="h-5 w-5 text-yellow-400 fill-yellow-400" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
-                                <svg class="h-5 w-5 text-yellow-400 fill-yellow-400" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
-                            </div>
-                            <p class="text-xs text-gray-600">Enterprise-grade platform</p>
                         </div>
                     </div>
                 </div>
@@ -146,115 +138,147 @@
     </section>
 
     <!-- Services Section -->
-    <section id="services" class="py-16 px-6 bg-white">
+    <section id="services" class="py-20 px-6 bg-white">
         <div class="max-w-7xl mx-auto">
-            <div class="text-center mb-12">
-                <h2 class="text-4xl lg:text-5xl font-bold text-gray-900 mb-4">Our Services</h2>
+            <div class="text-center mb-16">
+                <h2 class="text-4xl lg:text-5xl font-extrabold text-gray-900 mb-4">Our Services</h2>
                 <p class="text-xl text-gray-600 max-w-3xl mx-auto">
-                    Eight comprehensive healthcare technology solutions powered by AI
+                    Eight comprehensive healthcare technology solutions powered by advanced AI and machine learning
                 </p>
             </div>
 
-            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
                 <!-- AI Diagnostics -->
-                <a href="http://localhost:3007" class="service-card group bg-gradient-to-br from-blue-50 to-purple-50 border border-gray-200 rounded-2xl p-8 hover:shadow-2xl transition-all duration-300">
-                    <div class="text-5xl mb-4">🧠</div>
-                    <h3 class="text-2xl font-bold text-gray-900 mb-3 group-hover:text-blue-600 transition">AI Diagnostics</h3>
-                    <p class="text-gray-600 leading-relaxed mb-6">Advanced ML-based diagnostics with risk scoring and predictive analytics</p>
-                    <div class="flex items-center text-blue-600 font-semibold text-sm group-hover:gap-3 transition-all">
+                <a href="http://localhost:3007" class="service-card group bg-white border-2 border-gray-200 rounded-2xl p-8 hover:shadow-2xl hover:border-blue-500 transition-all duration-300">
+                    <div class="bg-gradient-to-br from-blue-100 to-blue-200 w-16 h-16 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                        <svg class="h-8 w-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3 group-hover:text-blue-600 transition">AI Diagnostics</h3>
+                    <p class="text-gray-600 leading-relaxed mb-4 text-sm">Advanced ML-based diagnostics with risk scoring and predictive analytics</p>
+                    <div class="flex items-center text-blue-600 font-semibold text-sm">
                         <span>Open Dashboard</span>
-                        <svg class="h-4 w-4 group-hover:translate-x-1 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg class="h-4 w-4 ml-1 group-hover:translate-x-2 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
                         </svg>
                     </div>
                 </a>
 
                 <!-- Medical Imaging AI -->
-                <a href="http://localhost:3002" class="service-card group bg-gradient-to-br from-indigo-50 to-blue-50 border border-gray-200 rounded-2xl p-8 hover:shadow-2xl transition-all duration-300">
-                    <div class="text-5xl mb-4">🔬</div>
-                    <h3 class="text-2xl font-bold text-gray-900 mb-3 group-hover:text-indigo-600 transition">Medical Imaging AI</h3>
-                    <p class="text-gray-600 leading-relaxed mb-6">DICOM processing with AI inference and Grad-CAM explainability</p>
-                    <div class="flex items-center text-indigo-600 font-semibold text-sm group-hover:gap-3 transition-all">
+                <a href="http://localhost:3002" class="service-card group bg-white border-2 border-gray-200 rounded-2xl p-8 hover:shadow-2xl hover:border-indigo-500 transition-all duration-300">
+                    <div class="bg-gradient-to-br from-indigo-100 to-indigo-200 w-16 h-16 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                        <svg class="h-8 w-8 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3 group-hover:text-indigo-600 transition">Medical Imaging AI</h3>
+                    <p class="text-gray-600 leading-relaxed mb-4 text-sm">DICOM processing with AI inference and Grad-CAM explainability</p>
+                    <div class="flex items-center text-indigo-600 font-semibold text-sm">
                         <span>Open Viewer</span>
-                        <svg class="h-4 w-4 group-hover:translate-x-1 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg class="h-4 w-4 ml-1 group-hover:translate-x-2 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
                         </svg>
                     </div>
                 </a>
 
-                <!-- Biosensing -->
-                <a href="http://localhost:3003" class="service-card group bg-gradient-to-br from-green-50 to-teal-50 border border-gray-200 rounded-2xl p-8 hover:shadow-2xl transition-all duration-300">
-                    <div class="text-5xl mb-4">📡</div>
-                    <h3 class="text-2xl font-bold text-gray-900 mb-3 group-hover:text-teal-600 transition">Biosensing Technology</h3>
-                    <p class="text-gray-600 leading-relaxed mb-6">Real-time monitoring with AWS IoT Core and WebSocket streaming</p>
-                    <div class="flex items-center text-teal-600 font-semibold text-sm group-hover:gap-3 transition-all">
+                <!-- Biosensing Technology -->
+                <a href="http://localhost:3003" class="service-card group bg-white border-2 border-gray-200 rounded-2xl p-8 hover:shadow-2xl hover:border-green-500 transition-all duration-300">
+                    <div class="bg-gradient-to-br from-green-100 to-green-200 w-16 h-16 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                        <svg class="h-8 w-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3 group-hover:text-green-600 transition">Biosensing Technology</h3>
+                    <p class="text-gray-600 leading-relaxed mb-4 text-sm">Real-time monitoring with AWS IoT Core and WebSocket streaming</p>
+                    <div class="flex items-center text-green-600 font-semibold text-sm">
                         <span>Open Monitor</span>
-                        <svg class="h-4 w-4 group-hover:translate-x-1 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg class="h-4 w-4 ml-1 group-hover:translate-x-2 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
                         </svg>
                     </div>
                 </a>
 
                 <!-- HIPAA Compliance -->
-                <a href="http://localhost:3004" class="service-card group bg-gradient-to-br from-red-50 to-pink-50 border border-gray-200 rounded-2xl p-8 hover:shadow-2xl transition-all duration-300">
-                    <div class="text-5xl mb-4">🔐</div>
-                    <h3 class="text-2xl font-bold text-gray-900 mb-3 group-hover:text-red-600 transition">HIPAA Compliance</h3>
-                    <p class="text-gray-600 leading-relaxed mb-6">AES-256-GCM encryption, audit logging, and breach tracking</p>
-                    <div class="flex items-center text-red-600 font-semibold text-sm group-hover:gap-3 transition-all">
+                <a href="http://localhost:3004" class="service-card group bg-white border-2 border-gray-200 rounded-2xl p-8 hover:shadow-2xl hover:border-red-500 transition-all duration-300">
+                    <div class="bg-gradient-to-br from-red-100 to-red-200 w-16 h-16 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                        <svg class="h-8 w-8 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3 group-hover:text-red-600 transition">HIPAA Compliance</h3>
+                    <p class="text-gray-600 leading-relaxed mb-4 text-sm">AES-256-GCM encryption, audit logging, and breach tracking</p>
+                    <div class="flex items-center text-red-600 font-semibold text-sm">
                         <span>Open Admin</span>
-                        <svg class="h-4 w-4 group-hover:translate-x-1 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg class="h-4 w-4 ml-1 group-hover:translate-x-2 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
                         </svg>
                     </div>
                 </a>
 
                 <!-- BioTensor Labs -->
-                <a href="http://localhost:3005" class="service-card group bg-gradient-to-br from-purple-50 to-indigo-50 border border-gray-200 rounded-2xl p-8 hover:shadow-2xl transition-all duration-300">
-                    <div class="text-5xl mb-4">🧪</div>
-                    <h3 class="text-2xl font-bold text-gray-900 mb-3 group-hover:text-purple-600 transition">BioTensor Labs</h3>
-                    <p class="text-gray-600 leading-relaxed mb-6">MLOps platform with MLflow integration and model registry</p>
-                    <div class="flex items-center text-purple-600 font-semibold text-sm group-hover:gap-3 transition-all">
+                <a href="http://localhost:3005" class="service-card group bg-white border-2 border-gray-200 rounded-2xl p-8 hover:shadow-2xl hover:border-purple-500 transition-all duration-300">
+                    <div class="bg-gradient-to-br from-purple-100 to-purple-200 w-16 h-16 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                        <svg class="h-8 w-8 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3 group-hover:text-purple-600 transition">BioTensor Labs</h3>
+                    <p class="text-gray-600 leading-relaxed mb-4 text-sm">MLOps platform with MLflow integration and model registry</p>
+                    <div class="flex items-center text-purple-600 font-semibold text-sm">
                         <span>Open Labs</span>
-                        <svg class="h-4 w-4 group-hover:translate-x-1 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg class="h-4 w-4 ml-1 group-hover:translate-x-2 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
                         </svg>
                     </div>
                 </a>
 
-                <!-- MYNX NatalCare -->
-                <a href="http://localhost:3006" class="service-card group bg-gradient-to-br from-pink-50 to-rose-50 border border-gray-200 rounded-2xl p-8 hover:shadow-2xl transition-all duration-300">
-                    <div class="text-5xl mb-4">🤰</div>
-                    <h3 class="text-2xl font-bold text-gray-900 mb-3 group-hover:text-pink-600 transition">MYNX NatalCare</h3>
-                    <p class="text-gray-600 leading-relaxed mb-6">Maternal health monitoring with prenatal care tracking</p>
-                    <div class="flex items-center text-pink-600 font-semibold text-sm group-hover:gap-3 transition-all">
+                <!-- OBiCare -->
+                <a href="http://localhost:3006" class="service-card group bg-white border-2 border-gray-200 rounded-2xl p-8 hover:shadow-2xl hover:border-pink-500 transition-all duration-300">
+                    <div class="bg-gradient-to-br from-pink-100 to-pink-200 w-16 h-16 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                        <svg class="h-8 w-8 text-pink-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3 group-hover:text-pink-600 transition">OBiCare</h3>
+                    <p class="text-gray-600 leading-relaxed mb-4 text-sm">Obstetric Intelligence Care - maternal health monitoring platform</p>
+                    <div class="flex items-center text-pink-600 font-semibold text-sm">
                         <span>Open Dashboard</span>
-                        <svg class="h-4 w-4 group-hover:translate-x-1 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg class="h-4 w-4 ml-1 group-hover:translate-x-2 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
                         </svg>
                     </div>
                 </a>
 
                 <!-- Genomic Intelligence -->
-                <a href="http://localhost:3008" class="service-card group bg-gradient-to-br from-purple-50 to-blue-50 border border-gray-200 rounded-2xl p-8 hover:shadow-2xl transition-all duration-300">
-                    <div class="text-5xl mb-4">🧬</div>
-                    <h3 class="text-2xl font-bold text-gray-900 mb-3 group-hover:text-purple-600 transition">Genomic Intelligence</h3>
-                    <p class="text-gray-600 leading-relaxed mb-6">Precision medicine platform with pharmacogenomics and variant interpretation</p>
-                    <div class="flex items-center text-purple-600 font-semibold text-sm group-hover:gap-3 transition-all">
+                <a href="http://localhost:3008" class="service-card group bg-white border-2 border-gray-200 rounded-2xl p-8 hover:shadow-2xl hover:border-violet-500 transition-all duration-300">
+                    <div class="bg-gradient-to-br from-violet-100 to-violet-200 w-16 h-16 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                        <svg class="h-8 w-8 text-violet-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3 group-hover:text-violet-600 transition">Genomic Intelligence</h3>
+                    <p class="text-gray-600 leading-relaxed mb-4 text-sm">Precision medicine with pharmacogenomics and variant interpretation</p>
+                    <div class="flex items-center text-violet-600 font-semibold text-sm">
                         <span>Open Platform</span>
-                        <svg class="h-4 w-4 group-hover:translate-x-1 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg class="h-4 w-4 ml-1 group-hover:translate-x-2 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
                         </svg>
                     </div>
                 </a>
 
                 <!-- Drug Discovery AI -->
-                <a href="http://localhost:3009" class="service-card group bg-gradient-to-br from-cyan-50 to-teal-50 border border-gray-200 rounded-2xl p-8 hover:shadow-2xl transition-all duration-300">
-                    <div class="text-5xl mb-4">💊</div>
-                    <h3 class="text-2xl font-bold text-gray-900 mb-3 group-hover:text-cyan-600 transition">Drug Discovery AI</h3>
-                    <p class="text-gray-600 leading-relaxed mb-6">Accelerated pharmaceutical research with molecular modeling and clinical trials</p>
-                    <div class="flex items-center text-cyan-600 font-semibold text-sm group-hover:gap-3 transition-all">
+                <a href="http://localhost:3009" class="service-card group bg-white border-2 border-gray-200 rounded-2xl p-8 hover:shadow-2xl hover:border-cyan-500 transition-all duration-300">
+                    <div class="bg-gradient-to-br from-cyan-100 to-cyan-200 w-16 h-16 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                        <svg class="h-8 w-8 text-cyan-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3 group-hover:text-cyan-600 transition">Drug Discovery AI</h3>
+                    <p class="text-gray-600 leading-relaxed mb-4 text-sm">Accelerated pharmaceutical research with molecular modeling</p>
+                    <div class="flex items-center text-cyan-600 font-semibold text-sm">
                         <span>Open Platform</span>
-                        <svg class="h-4 w-4 group-hover:translate-x-1 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg class="h-4 w-4 ml-1 group-hover:translate-x-2 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
                         </svg>
                     </div>
@@ -263,163 +287,345 @@
         </div>
     </section>
 
-    <!-- Platform Features -->
-    <section id="features" class="py-16 px-6 bg-gradient-to-br from-gray-50 to-white">
+
+    <!-- How It Works Section -->
+    <section id="how-it-works" class="py-20 px-6 bg-gradient-to-br from-gray-50 to-white">
         <div class="max-w-7xl mx-auto">
-            <div class="text-center mb-12">
-                <h2 class="text-4xl font-bold text-gray-900 mb-4">Platform Features</h2>
-                <p class="text-xl text-gray-600">Enterprise-grade healthcare technology stack</p>
+            <div class="text-center mb-16">
+                <h2 class="text-4xl lg:text-5xl font-extrabold text-gray-900 mb-4">How Our Biomedical Intelligence Platform Works</h2>
+                <p class="text-xl text-gray-600 max-w-4xl mx-auto">
+                    Our comprehensive 7-step process ensures precision diagnostics, personalized treatment, and optimal patient outcomes
+                </p>
             </div>
 
-            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <div class="bg-white border border-gray-200 rounded-xl p-6 hover:shadow-lg transition">
-                    <div class="text-3xl mb-3">🏥</div>
-                    <h3 class="text-lg font-bold text-gray-900 mb-2">Full-Stack Services</h3>
-                    <p class="text-gray-600 text-sm">8 complete services with backend APIs and frontend dashboards</p>
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Step 1 -->
+                <div class="step-card bg-white border-2 border-blue-200 rounded-2xl p-6 hover:shadow-xl transition-all">
+                    <div class="bg-gradient-to-br from-blue-500 to-blue-600 w-12 h-12 rounded-xl flex items-center justify-center mb-4 text-white font-bold text-xl">1</div>
+                    <h3 class="text-lg font-bold text-gray-900 mb-2">Data Integration</h3>
+                    <p class="text-sm text-gray-600">Multi-modal health data from sensors, imaging, genomics, and clinical records</p>
                 </div>
-                <div class="bg-white border border-gray-200 rounded-xl p-6 hover:shadow-lg transition">
-                    <div class="text-3xl mb-3">🔒</div>
-                    <h3 class="text-lg font-bold text-gray-900 mb-2">Enterprise Security</h3>
-                    <p class="text-gray-600 text-sm">AES-256-GCM encryption and HIPAA-compliant audit logging</p>
+
+                <!-- Step 2 -->
+                <div class="step-card bg-white border-2 border-purple-200 rounded-2xl p-6 hover:shadow-xl transition-all">
+                    <div class="bg-gradient-to-br from-purple-500 to-purple-600 w-12 h-12 rounded-xl flex items-center justify-center mb-4 text-white font-bold text-xl">2</div>
+                    <h3 class="text-lg font-bold text-gray-900 mb-2">AI Processing</h3>
+                    <p class="text-sm text-gray-600">Advanced ML algorithms process and analyze complex biomedical data</p>
                 </div>
-                <div class="bg-white border border-gray-200 rounded-xl p-6 hover:shadow-lg transition">
-                    <div class="text-3xl mb-3">⚡</div>
-                    <h3 class="text-lg font-bold text-gray-900 mb-2">Real-Time Capabilities</h3>
-                    <p class="text-gray-600 text-sm">WebSocket streaming, MQTT messaging, live updates</p>
+
+                <!-- Step 3 -->
+                <div class="step-card bg-white border-2 border-green-200 rounded-2xl p-6 hover:shadow-xl transition-all">
+                    <div class="bg-gradient-to-br from-green-500 to-green-600 w-12 h-12 rounded-xl flex items-center justify-center mb-4 text-white font-bold text-xl">3</div>
+                    <h3 class="text-lg font-bold text-gray-900 mb-2">Pattern Recognition</h3>
+                    <p class="text-sm text-gray-600">Deep learning models identify disease patterns and biomarkers</p>
                 </div>
-                <div class="bg-white border border-gray-200 rounded-xl p-6 hover:shadow-lg transition">
-                    <div class="text-3xl mb-3">🤖</div>
-                    <h3 class="text-lg font-bold text-gray-900 mb-2">Advanced ML/AI</h3>
-                    <p class="text-gray-600 text-sm">TensorFlow, PyTorch, MLflow, Grad-CAM explainability</p>
+
+                <!-- Step 4 -->
+                <div class="step-card bg-white border-2 border-indigo-200 rounded-2xl p-6 hover:shadow-xl transition-all">
+                    <div class="bg-gradient-to-br from-indigo-500 to-indigo-600 w-12 h-12 rounded-xl flex items-center justify-center mb-4 text-white font-bold text-xl">4</div>
+                    <h3 class="text-lg font-bold text-gray-900 mb-2">Diagnostic Insights</h3>
+                    <p class="text-sm text-gray-600">Generate accurate diagnoses with explainable AI and confidence scores</p>
                 </div>
-                <div class="bg-white border border-gray-200 rounded-xl p-6 hover:shadow-lg transition">
-                    <div class="text-3xl mb-3">🚀</div>
-                    <h3 class="text-lg font-bold text-gray-900 mb-2">Production Ready</h3>
-                    <p class="text-gray-600 text-sm">Docker support, Kubernetes manifests, CI/CD pipelines</p>
+
+                <!-- Step 5 -->
+                <div class="step-card bg-white border-2 border-orange-200 rounded-2xl p-6 hover:shadow-xl transition-all">
+                    <div class="bg-gradient-to-br from-orange-500 to-orange-600 w-12 h-12 rounded-xl flex items-center justify-center mb-4 text-white font-bold text-xl">5</div>
+                    <h3 class="text-lg font-bold text-gray-900 mb-2">Treatment Planning</h3>
+                    <p class="text-sm text-gray-600">Personalized treatment recommendations based on patient profile</p>
                 </div>
-                <div class="bg-white border border-gray-200 rounded-xl p-6 hover:shadow-lg transition">
-                    <div class="text-3xl mb-3">📚</div>
-                    <h3 class="text-lg font-bold text-gray-900 mb-2">Comprehensive APIs</h3>
-                    <p class="text-gray-600 text-sm">RESTful with OpenAPI/Swagger documentation</p>
+
+                <!-- Step 6 -->
+                <div class="step-card bg-white border-2 border-red-200 rounded-2xl p-6 hover:shadow-xl transition-all">
+                    <div class="bg-gradient-to-br from-red-500 to-red-600 w-12 h-12 rounded-xl flex items-center justify-center mb-4 text-white font-bold text-xl">6</div>
+                    <h3 class="text-lg font-bold text-gray-900 mb-2">Clinical Decision</h3>
+                    <p class="text-sm text-gray-600">Support healthcare professionals with evidence-based recommendations</p>
+                </div>
+
+                <!-- Step 7 -->
+                <div class="step-card bg-white border-2 border-cyan-200 rounded-2xl p-6 hover:shadow-xl transition-all">
+                    <div class="bg-gradient-to-br from-cyan-500 to-cyan-600 w-12 h-12 rounded-xl flex items-center justify-center mb-4 text-white font-bold text-xl">7</div>
+                    <h3 class="text-lg font-bold text-gray-900 mb-2">Continuous Care</h3>
+                    <p class="text-sm text-gray-600">Ongoing monitoring and treatment optimization</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Technology Stack -->
-    <section id="technology" class="py-16 px-6 bg-white">
+    <!-- Interactive Dashboard Section -->
+    <section class="py-20 px-6 bg-white">
         <div class="max-w-7xl mx-auto">
-            <div class="text-center mb-12">
-                <h2 class="text-4xl font-bold text-gray-900 mb-4">Technology Stack</h2>
-                <p class="text-xl text-gray-600">Built with modern, production-grade technologies</p>
+            <div class="text-center mb-16">
+                <h2 class="text-4xl lg:text-5xl font-extrabold text-gray-900 mb-4">Interactive Biomedical Intelligence Dashboard</h2>
+                <p class="text-xl text-gray-600 max-w-4xl mx-auto">
+                    Experience our comprehensive platform's capabilities with real-time AI diagnostics, genomic analysis, and clinical decision support
+                </p>
             </div>
 
-            <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-                <div class="bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl p-6">
-                    <h3 class="font-bold text-gray-900 mb-4">Backend</h3>
-                    <div class="space-y-2 text-sm text-gray-700">
-                        <p>• Python (FastAPI), Node.js (Express), TypeScript</p>
-                        <p>• PostgreSQL, Redis</p>
-                        <p>• AWS IoT Core, MQTT</p>
+            <div class="grid lg:grid-cols-3 gap-6">
+                <!-- Real-time Health Monitoring -->
+                <div class="bg-gradient-to-br from-blue-50 to-blue-100 border-2 border-blue-200 rounded-2xl p-6">
+                    <h3 class="text-xl font-bold text-gray-900 mb-4">Real-time Health Monitoring</h3>
+                    <div class="space-y-3">
+                        <div class="flex items-center justify-between bg-white rounded-lg p-3">
+                            <span class="text-sm font-semibold text-gray-700">Heart Rate</span>
+                            <span class="text-lg font-bold text-blue-600">72 BPM</span>
+                        </div>
+                        <div class="flex items-center justify-between bg-white rounded-lg p-3">
+                            <span class="text-sm font-semibold text-gray-700">Blood Pressure</span>
+                            <span class="text-lg font-bold text-green-600">120/80</span>
+                        </div>
+                        <div class="flex items-center justify-between bg-white rounded-lg p-3">
+                            <span class="text-sm font-semibold text-gray-700">Oxygen Saturation</span>
+                            <span class="text-lg font-bold text-teal-600">98%</span>
+                        </div>
+                        <div class="flex items-center justify-between bg-white rounded-lg p-3">
+                            <span class="text-sm font-semibold text-gray-700">Glucose Level</span>
+                            <span class="text-lg font-bold text-purple-600">95 mg/dL</span>
+                        </div>
                     </div>
                 </div>
-                <div class="bg-gradient-to-br from-purple-50 to-purple-100 rounded-xl p-6">
-                    <h3 class="font-bold text-gray-900 mb-4">Frontend</h3>
-                    <div class="space-y-2 text-sm text-gray-700">
-                        <p>• Next.js 14, React 18, TypeScript</p>
-                        <p>• Tailwind CSS</p>
-                        <p>• WebSocket, Real-time Updates</p>
+
+                <!-- AI Diagnostic Results -->
+                <div class="bg-gradient-to-br from-green-50 to-green-100 border-2 border-green-200 rounded-2xl p-6">
+                    <h3 class="text-xl font-bold text-gray-900 mb-4">AI Diagnostic Results</h3>
+                    <div class="bg-white rounded-lg p-4 mb-4">
+                        <div class="text-2xl font-bold text-green-600 mb-1">Normal Health Status</div>
+                        <div class="text-sm text-gray-600">Confidence: <span class="font-bold text-green-700">94.7%</span></div>
+                    </div>
+                    <div class="space-y-2">
+                        <div class="flex items-center justify-between text-sm">
+                            <span class="text-gray-700">Cardiovascular Health</span>
+                            <span class="font-bold text-green-600">Excellent</span>
+                        </div>
+                        <div class="flex items-center justify-between text-sm">
+                            <span class="text-gray-700">Respiratory Function</span>
+                            <span class="font-bold text-green-600">Normal</span>
+                        </div>
+                        <div class="flex items-center justify-between text-sm">
+                            <span class="text-gray-700">Metabolic Status</span>
+                            <span class="font-bold text-green-600">Good</span>
+                        </div>
+                        <div class="flex items-center justify-between text-sm">
+                            <span class="text-gray-700">Neurological Function</span>
+                            <span class="font-bold text-green-600">Normal</span>
+                        </div>
+                    </div>
+                    <div class="mt-4 bg-green-100 rounded-lg p-3">
+                        <h4 class="font-bold text-gray-900 text-sm mb-2">AI Recommendations</h4>
+                        <ul class="text-xs text-gray-700 space-y-1">
+                            <li>• Continue current exercise routine</li>
+                            <li>• Monitor blood pressure weekly</li>
+                            <li>• Schedule annual checkup</li>
+                            <li>• Consider genetic testing</li>
+                        </ul>
                     </div>
                 </div>
-                <div class="bg-gradient-to-br from-green-50 to-green-100 rounded-xl p-6">
-                    <h3 class="font-bold text-gray-900 mb-4">ML/AI</h3>
-                    <div class="space-y-2 text-sm text-gray-700">
-                        <p>• TensorFlow, PyTorch, MLflow</p>
-                        <p>• scikit-learn</p>
-                        <p>• Grad-CAM, Signal Processing</p>
+
+                <!-- Genomic Analysis & Clinical Decision Support -->
+                <div class="space-y-6">
+                    <div class="bg-gradient-to-br from-purple-50 to-purple-100 border-2 border-purple-200 rounded-2xl p-6">
+                        <h3 class="text-xl font-bold text-gray-900 mb-4">Genomic Analysis</h3>
+                        <div class="bg-white rounded-lg p-4 mb-3">
+                            <div class="text-lg font-bold text-purple-600 mb-1">Genetic Profile</div>
+                            <div class="text-sm text-gray-600">Analysis Complete</div>
+                        </div>
+                        <div class="grid grid-cols-2 gap-2 text-sm">
+                            <div class="bg-white rounded p-2">
+                                <div class="text-gray-600 text-xs">Drug Metabolism</div>
+                                <div class="font-bold text-purple-600">Normal</div>
+                            </div>
+                            <div class="bg-white rounded p-2">
+                                <div class="text-gray-600 text-xs">Disease Risk</div>
+                                <div class="font-bold text-green-600">Low</div>
+                            </div>
+                            <div class="bg-white rounded p-2">
+                                <div class="text-gray-600 text-xs">Pharmacogenomics</div>
+                                <div class="font-bold text-blue-600">Optimized</div>
+                            </div>
+                            <div class="bg-white rounded p-2">
+                                <div class="text-gray-600 text-xs">Rare Variants</div>
+                                <div class="font-bold text-gray-600">None Detected</div>
+                            </div>
+                        </div>
                     </div>
-                </div>
-                <div class="bg-gradient-to-br from-red-50 to-red-100 rounded-xl p-6">
-                    <h3 class="font-bold text-gray-900 mb-4">Security</h3>
-                    <div class="space-y-2 text-sm text-gray-700">
-                        <p>• AES-256-GCM Encryption</p>
-                        <p>• JWT, bcrypt</p>
-                        <p>• HIPAA Compliant</p>
+
+                    <div class="bg-gradient-to-br from-orange-50 to-orange-100 border-2 border-orange-200 rounded-2xl p-6">
+                        <h3 class="text-lg font-bold text-gray-900 mb-3">Clinical Decision Support</h3>
+                        <div class="space-y-2 text-sm">
+                            <div class="flex justify-between">
+                                <span class="text-gray-700">Treatment Protocol</span>
+                                <span class="font-bold text-orange-600">Evidence-Based</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-700">Drug Interactions</span>
+                                <span class="font-bold text-green-600">None Detected</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-700">Contraindications</span>
+                                <span class="font-bold text-green-600">None Found</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- CTA Section -->
-    <section class="py-16 px-6 bg-gradient-to-r from-blue-600 to-purple-600">
-        <div class="max-w-4xl mx-auto text-center text-white">
-            <h2 class="text-4xl md:text-5xl font-bold mb-6">Ready to Transform Healthcare?</h2>
-            <p class="text-xl mb-10 opacity-90">
-                Start building with our comprehensive healthcare AI platform
-            </p>
-            <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                <button onclick="window.location.href='#services'" class="px-8 py-4 bg-white text-blue-600 font-bold rounded-lg hover:bg-gray-100 transition shadow-xl text-lg">
-                    Explore Services
-                </button>
-                <a href="https://github.com/alovladi007/biomedical-intelligence-platform" class="px-8 py-4 bg-transparent border-2 border-white text-white font-bold rounded-lg hover:bg-white hover:text-blue-600 transition text-lg">
-                    View on GitHub
+    <!-- Enterprise Healthcare Solutions -->
+    <section id="enterprise" class="py-20 px-6 bg-gradient-to-br from-gray-50 to-white">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl lg:text-5xl font-extrabold text-gray-900 mb-4">Enterprise Healthcare Solutions</h2>
+                <p class="text-xl text-gray-600 max-w-4xl mx-auto">
+                    Comprehensive biomedical intelligence platform for hospitals, research institutions, and pharmaceutical companies
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Hospital Systems -->
+                <a href="/enterprise/hospital-systems.html" class="service-card group bg-white border-2 border-gray-200 rounded-2xl p-8 hover:shadow-2xl hover:border-blue-500 transition-all">
+                    <div class="bg-gradient-to-br from-blue-100 to-blue-200 w-16 h-16 rounded-xl flex items-center justify-center mb-4">
+                        <svg class="h-8 w-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-900 mb-3 group-hover:text-blue-600 transition">Hospital Systems</h3>
+                    <p class="text-gray-600 leading-relaxed mb-4">Integrated platform for large healthcare systems with multi-site deployment</p>
+                    <ul class="text-sm text-gray-600 space-y-1 mb-4">
+                        <li>• Multi-hospital integration</li>
+                        <li>• Centralized patient records</li>
+                        <li>• Cross-site analytics</li>
+                        <li>• Enterprise security</li>
+                    </ul>
+                    <div class="flex items-center text-blue-600 font-semibold text-sm">
+                        <span>Learn More</span>
+                        <svg class="h-4 w-4 ml-1 group-hover:translate-x-2 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                        </svg>
+                    </div>
+                </a>
+
+                <!-- Research Institutions -->
+                <a href="/enterprise/research-institutions.html" class="service-card group bg-white border-2 border-gray-200 rounded-2xl p-8 hover:shadow-2xl hover:border-purple-500 transition-all">
+                    <div class="bg-gradient-to-br from-purple-100 to-purple-200 w-16 h-16 rounded-xl flex items-center justify-center mb-4">
+                        <svg class="h-8 w-8 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-900 mb-3 group-hover:text-purple-600 transition">Research Institutions</h3>
+                    <p class="text-gray-600 leading-relaxed mb-4">Advanced research tools for clinical trials, drug discovery, and medical research</p>
+                    <ul class="text-sm text-gray-600 space-y-1 mb-4">
+                        <li>• Clinical trial management</li>
+                        <li>• Research data analytics</li>
+                        <li>• Collaborative platforms</li>
+                        <li>• Publication tools</li>
+                    </ul>
+                    <div class="flex items-center text-purple-600 font-semibold text-sm">
+                        <span>Learn More</span>
+                        <svg class="h-4 w-4 ml-1 group-hover:translate-x-2 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                        </svg>
+                    </div>
+                </a>
+
+                <!-- Pharmaceutical -->
+                <a href="/enterprise/pharmaceutical.html" class="service-card group bg-white border-2 border-gray-200 rounded-2xl p-8 hover:shadow-2xl hover:border-green-500 transition-all">
+                    <div class="bg-gradient-to-br from-green-100 to-green-200 w-16 h-16 rounded-xl flex items-center justify-center mb-4">
+                        <svg class="h-8 w-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-900 mb-3 group-hover:text-green-600 transition">Pharmaceutical</h3>
+                    <p class="text-gray-600 leading-relaxed mb-4">Drug development and personalized medicine solutions for pharmaceutical companies</p>
+                    <ul class="text-sm text-gray-600 space-y-1 mb-4">
+                        <li>• Drug discovery AI</li>
+                        <li>• Pharmacogenomics</li>
+                        <li>• Market analysis</li>
+                        <li>• Regulatory compliance</li>
+                    </ul>
+                    <div class="flex items-center text-green-600 font-semibold text-sm">
+                        <span>Learn More</span>
+                        <svg class="h-4 w-4 ml-1 group-hover:translate-x-2 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                        </svg>
+                    </div>
+                </a>
+
+                <!-- Diagnostic Labs -->
+                <a href="/enterprise/diagnostic-labs.html" class="service-card group bg-white border-2 border-gray-200 rounded-2xl p-8 hover:shadow-2xl hover:border-orange-500 transition-all">
+                    <div class="bg-gradient-to-br from-orange-100 to-orange-200 w-16 h-16 rounded-xl flex items-center justify-center mb-4">
+                        <svg class="h-8 w-8 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-900 mb-3 group-hover:text-orange-600 transition">Diagnostic Labs</h3>
+                    <p class="text-gray-600 leading-relaxed mb-4">High-throughput diagnostic solutions for pathology and clinical laboratories</p>
+                    <ul class="text-sm text-gray-600 space-y-1 mb-4">
+                        <li>• Automated analysis</li>
+                        <li>• Quality control</li>
+                        <li>• Report generation</li>
+                        <li>• Integration APIs</li>
+                    </ul>
+                    <div class="flex items-center text-orange-600 font-semibold text-sm">
+                        <span>Learn More</span>
+                        <svg class="h-4 w-4 ml-1 group-hover:translate-x-2 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                        </svg>
+                    </div>
+                </a>
+
+                <!-- Medical Practices -->
+                <a href="/enterprise/medical-practices.html" class="service-card group bg-white border-2 border-gray-200 rounded-2xl p-8 hover:shadow-2xl hover:border-cyan-500 transition-all">
+                    <div class="bg-gradient-to-br from-cyan-100 to-cyan-200 w-16 h-16 rounded-xl flex items-center justify-center mb-4">
+                        <svg class="h-8 w-8 text-cyan-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-900 mb-3 group-hover:text-cyan-600 transition">Medical Practices</h3>
+                    <p class="text-gray-600 leading-relaxed mb-4">Comprehensive practice management with AI-powered clinical decision support</p>
+                    <ul class="text-sm text-gray-600 space-y-1 mb-4">
+                        <li>• Practice management</li>
+                        <li>• Patient scheduling</li>
+                        <li>• Clinical workflows</li>
+                        <li>• Billing integration</li>
+                    </ul>
+                    <div class="flex items-center text-cyan-600 font-semibold text-sm">
+                        <span>Learn More</span>
+                        <svg class="h-4 w-4 ml-1 group-hover:translate-x-2 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                        </svg>
+                    </div>
+                </a>
+
+                <!-- Medical Education -->
+                <a href="/enterprise/medical-education.html" class="service-card group bg-white border-2 border-gray-200 rounded-2xl p-8 hover:shadow-2xl hover:border-indigo-500 transition-all">
+                    <div class="bg-gradient-to-br from-indigo-100 to-indigo-200 w-16 h-16 rounded-xl flex items-center justify-center mb-4">
+                        <svg class="h-8 w-8 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-900 mb-3 group-hover:text-indigo-600 transition">Medical Education</h3>
+                    <p class="text-gray-600 leading-relaxed mb-4">Training and education platforms for medical students and healthcare professionals</p>
+                    <ul class="text-sm text-gray-600 space-y-1 mb-4">
+                        <li>• Virtual simulations</li>
+                        <li>• Case studies</li>
+                        <li>• Assessment tools</li>
+                        <li>• Progress tracking</li>
+                    </ul>
+                    <div class="flex items-center text-indigo-600 font-semibold text-sm">
+                        <span>Learn More</span>
+                        <svg class="h-4 w-4 ml-1 group-hover:translate-x-2 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                        </svg>
+                    </div>
                 </a>
             </div>
         </div>
     </section>
-
     <!-- Footer -->
     <footer class="bg-gray-900 text-white py-12">
-        <div class="max-w-7xl mx-auto px-6">
-            <div class="grid md:grid-cols-4 gap-8 mb-8">
-                <div>
-                    <div class="flex items-center gap-2 mb-4">
-                        <div class="bg-gradient-to-r from-blue-600 to-purple-600 p-2 rounded-lg">
-                            <svg class="h-5 w-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"/>
-                            </svg>
-                        </div>
-                        <div class="font-bold">BioMedical Intelligence</div>
-                    </div>
-                    <p class="text-sm text-gray-400 mb-3">Enterprise healthcare AI platform</p>
-                    <p class="text-xs text-gray-400">(800) 100-2000</p>
-                    <p class="text-xs text-gray-400">platform@myengineering.tech</p>
-                </div>
-
-                <div>
-                    <h3 class="font-bold mb-3 text-sm">Services</h3>
-                    <ul class="space-y-2 text-xs text-gray-400">
-                        <li><a href="http://localhost:3007" class="hover:text-white transition">AI Diagnostics</a></li>
-                        <li><a href="http://localhost:3002" class="hover:text-white transition">Medical Imaging</a></li>
-                        <li><a href="http://localhost:3003" class="hover:text-white transition">Biosensing</a></li>
-                    </ul>
-                </div>
-
-                <div>
-                    <h3 class="font-bold mb-3 text-sm">More Services</h3>
-                    <ul class="space-y-2 text-xs text-gray-400">
-                        <li><a href="http://localhost:3004" class="hover:text-white transition">HIPAA Compliance</a></li>
-                        <li><a href="http://localhost:3005" class="hover:text-white transition">BioTensor Labs</a></li>
-                        <li><a href="http://localhost:3006" class="hover:text-white transition">MYNX NatalCare</a></li>
-                        <li><a href="http://localhost:3008" class="hover:text-white transition">Genomic Intelligence</a></li>
-                        <li><a href="http://localhost:3009" class="hover:text-white transition">Drug Discovery AI</a></li>
-                    </ul>
-                </div>
-
-                <div>
-                    <h3 class="font-bold mb-3 text-sm">Company</h3>
-                    <ul class="space-y-2 text-xs text-gray-400">
-                        <li><a href="https://github.com/alovladi007/biomedical-intelligence-platform" class="hover:text-white transition">GitHub</a></li>
-                        <li><a href="#" class="hover:text-white transition">Documentation</a></li>
-                        <li><a href="#" class="hover:text-white transition">Support</a></li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="border-t border-gray-800 pt-6 text-center text-xs text-gray-400">
-                © 2025 M.Y. Engineering and Technologies. All rights reserved.
-            </div>
+        <div class="max-w-7xl mx-auto px-6 text-center">
+            <p class="text-sm text-gray-400">© 2025 M.Y. Engineering and Technologies. All rights reserved.</p>
         </div>
     </footer>
 </body>
