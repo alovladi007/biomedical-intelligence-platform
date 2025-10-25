@@ -1,0 +1,202 @@
+groups:
+  # ============================================================================
+  # Service Health Alerts
+  # ============================================================================
+  - name: service_health
+    interval: 30s
+    rules:
+      - alert: ServiceDown
+        expr: service_health == 0
+        for: 5m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Service {{ $labels.service }} is down"
+          description: "{{ $labels.service }} has been down for more than 5 minutes."
+
+      - alert: HighErrorRate
+        expr: rate(errors_total[5m]) > 10
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High error rate in {{ $labels.service }}"
+          description: "{{ $labels.service }} is experiencing {{ $value }} errors/sec."
+
+  # ============================================================================
+  # HTTP Performance Alerts
+  # ============================================================================
+  - name: http_performance
+    interval: 30s
+    rules:
+      - alert: HighResponseTime
+        expr: histogram_quantile(0.95, rate(http_request_duration_seconds_bucket[5m])) > 5
+        for: 10m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High response time for {{ $labels.service }}"
+          description: "95th percentile response time is {{ $value }}s for {{ $labels.endpoint }}."
+
+      - alert: HighRequestRate
+        expr: rate(http_requests_total[5m]) > 1000
+        for: 5m
+        labels:
+          severity: info
+        annotations:
+          summary: "High request rate for {{ $labels.service }}"
+          description: "{{ $labels.service }} is receiving {{ $value }} requests/sec."
+
+      - alert: HTTPErrorRate
+        expr: rate(http_requests_total{status=~"5.."}[5m]) / rate(http_requests_total[5m]) > 0.05
+        for: 5m
+        labels:
+          severity: error
+        annotations:
+          summary: "High HTTP 5xx error rate"
+          description: "{{ $labels.service }} has {{ $value | humanizePercentage }} 5xx errors."
+
+  # ============================================================================
+  # Model Performance Alerts
+  # ============================================================================
+  - name: model_performance
+    interval: 30s
+    rules:
+      - alert: SlowModelPrediction
+        expr: histogram_quantile(0.95, rate(model_prediction_duration_seconds_bucket[5m])) > 30
+        for: 10m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Slow model predictions for {{ $labels.model_name }}"
+          description: "95th percentile prediction time is {{ $value }}s for {{ $labels.model_name }}."
+
+      - alert: LowPredictionConfidence
+        expr: histogram_quantile(0.50, rate(model_prediction_confidence_bucket[5m])) < 0.5
+        for: 15m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Low prediction confidence for {{ $labels.model_name }}"
+          description: "Median confidence score is {{ $value }} for {{ $labels.model_name }}."
+
+      - alert: ModelPredictionErrors
+        expr: rate(model_predictions_total{status="error"}[5m]) > 1
+        for: 5m
+        labels:
+          severity: error
+        annotations:
+          summary: "Model prediction errors for {{ $labels.model_name }}"
+          description: "{{ $labels.model_name }} is experiencing {{ $value }} prediction errors/sec."
+
+  # ============================================================================
+  # Database Alerts
+  # ============================================================================
+  - name: database
+    interval: 30s
+    rules:
+      - alert: HighDatabaseConnections
+        expr: db_connections_active > 80
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High database connections"
+          description: "{{ $labels.service }} has {{ $value }} active connections."
+
+      - alert: SlowDatabaseQueries
+        expr: histogram_quantile(0.95, rate(db_query_duration_seconds_bucket[5m])) > 1
+        for: 10m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Slow database queries"
+          description: "95th percentile query time is {{ $value }}s for {{ $labels.operation }}."
+
+  # ============================================================================
+  # Authentication & Security Alerts
+  # ============================================================================
+  - name: security
+    interval: 30s
+    rules:
+      - alert: HighFailedLoginAttempts
+        expr: rate(auth_attempts_total{status="failed"}[1h]) > 10
+        for: 5m
+        labels:
+          severity: critical
+        annotations:
+          summary: "High failed login attempts"
+          description: "{{ $value }} failed login attempts/hour in {{ $labels.service }}. Possible brute force attack."
+
+      - alert: MFAFailures
+        expr: rate(mfa_attempts_total{status="failed"}[5m]) > 5
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High MFA failures"
+          description: "{{ $value }} MFA failures/sec in {{ $labels.service }}."
+
+      - alert: UnauthorizedPHIAccess
+        expr: rate(phi_access_total[5m]) > 100
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High PHI access rate"
+          description: "{{ $value }} PHI access events/sec. Possible unauthorized access."
+
+  # ============================================================================
+  # HIPAA Compliance Alerts
+  # ============================================================================
+  - name: hipaa_compliance
+    interval: 1h
+    rules:
+      - alert: PHIAccessWithoutReason
+        expr: increase(phi_access_total{access_reason=""}[1h]) > 10
+        labels:
+          severity: critical
+        annotations:
+          summary: "PHI accessed without documented reason"
+          description: "HIPAA violation: {{ $value }} PHI access events without access reason in last hour."
+
+      - alert: AuditLogRetention
+        expr: (time() - max(audit_log_oldest_entry_timestamp)) > (6 * 365 * 24 * 3600)
+        labels:
+          severity: critical
+        annotations:
+          summary: "Audit log retention policy violated"
+          description: "HIPAA violation: Audit logs older than 6 years detected."
+
+  # ============================================================================
+  # Infrastructure Alerts
+  # ============================================================================
+  - name: infrastructure
+    interval: 30s
+    rules:
+      - alert: HighCPUUsage
+        expr: process_cpu_seconds_total > 0.8
+        for: 10m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High CPU usage"
+          description: "{{ $labels.service }} CPU usage is {{ $value | humanizePercentage }}."
+
+      - alert: HighMemoryUsage
+        expr: process_resident_memory_bytes > 2e9
+        for: 10m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High memory usage"
+          description: "{{ $labels.service }} is using {{ $value | humanize1024 }}B of memory."
+
+      - alert: DiskSpaceLow
+        expr: node_filesystem_avail_bytes{mountpoint="/"} / node_filesystem_size_bytes{mountpoint="/"} < 0.1
+        for: 5m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Low disk space"
+          description: "Only {{ $value | humanizePercentage }} disk space remaining."
