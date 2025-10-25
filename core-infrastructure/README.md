@@ -18,8 +18,8 @@ core-infrastructure/
 │   │   ├── dicom_ingestion_service.py      ✅ Complete
 │   │   ├── fhir_ingestion_service.py       ✅ Complete
 │   │   ├── genomic_ingestion_service.py    ✅ Complete
-│   │   ├── data_validator.py               ⏳ Pending
-│   │   └── storage_manager.py              ⏳ Pending
+│   │   ├── storage_manager.py              ✅ Complete
+│   │   └── data_validator.py               ⏳ Pending
 │   ├── tests/
 │   ├── config/
 │   └── requirements.txt                     ✅ Complete
@@ -242,13 +242,88 @@ print(f"PGx variants found: {len(pgx_result['pgx_variants'])}")
 }
 ```
 
-## 📈 Next Steps (Week 1 - Days 5-7)
+### ✅ Storage Manager
 
-### Day 5-6: Storage Layer
-- [ ] PostgreSQL schema design
-- [ ] MongoDB collections setup
-- [ ] S3 bucket configuration
-- [ ] Encryption key management
+**Unified storage interface** for all biomedical data with encryption and HIPAA compliance.
+
+**Storage Backends:**
+- **PostgreSQL** - Structured clinical data (patients, observations, conditions, genomic variants)
+- **MongoDB** - Unstructured data (FHIR resources, DICOM metadata)
+- **S3/Local** - Large files (DICOM images, BAM/FASTQ files)
+- **Redis** - Session caching, temporary data
+
+**Database Schema (PostgreSQL):**
+- `patients` - De-identified patient demographics
+- `dicom_studies` - Medical imaging metadata
+- `observations` - Vitals and lab results (LOINC/SNOMED coded)
+- `conditions` - Diagnoses (ICD-10 coded)
+- `genomic_variants` - SNPs, indels, clinical variants
+- `audit_log` - Complete access logging for HIPAA compliance
+
+**Example Usage:**
+```python
+from src.storage_manager import StorageManager
+
+# Production configuration
+storage = StorageManager(
+    postgres_config={
+        'host': 'biomedical-db.us-east-1.rds.amazonaws.com',
+        'database': 'biomedical_db',
+        'user': 'admin',
+        'password': os.environ['DB_PASSWORD']
+    },
+    mongodb_config={
+        'uri': 'mongodb+srv://cluster.mongodb.net',
+        'database': 'biomedical_metadata'
+    },
+    s3_config={
+        'bucket': 'biomedical-data-prod',
+        'kms_key_id': 'arn:aws:kms:...'
+    },
+    encryption_key=os.environ['ENCRYPTION_KEY'].encode(),
+    local_mode=False
+)
+
+# Store patient data
+storage.store_patient({
+    'id': 'original_id_123',
+    'pseudonym': 'PATIENT_12345',
+    'gender': 'F',
+    'birth_year': 1985,
+    'age': 40,
+    'state': 'CA'
+})
+
+# Store DICOM file
+result = storage.store_file(
+    file_path='/path/to/scan.dcm',
+    storage_key='dicom/PATIENT_12345/CT/abc123.dcm',
+    encrypt=True
+)
+
+# Audit log (required for HIPAA)
+storage.log_audit({
+    'user_id': 'physician_001',
+    'action': 'VIEW',
+    'resource_type': 'dicom_study',
+    'resource_id': 'abc123',
+    'patient_pseudonym': 'PATIENT_12345',
+    'ip_address': '10.0.1.50',
+    'success': True
+})
+
+storage.close()
+```
+
+**Security Features:**
+- Server-side encryption (AES-256) for all files
+- Fernet encryption for sensitive data at rest
+- AWS KMS integration for key management
+- Complete audit trail of all PHI access
+- Connection pooling for performance
+- SSL/TLS for all database connections
+
+## 📈 Next Steps (Week 1 - Day 7)
 
 ### Day 7: Data Validation
 - [ ] Pydantic schemas
@@ -351,6 +426,6 @@ This is foundational infrastructure used by all services. Changes require:
 
 ---
 
-**Status:** Week 1, Day 4 - On Track ✅
-**Next Milestone:** Complete storage layer by Day 6
+**Status:** Week 1, Day 6 - On Track ✅
+**Next Milestone:** Complete data validation by Day 7
 **Timeline:** 4-6 weeks total
