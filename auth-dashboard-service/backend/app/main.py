@@ -95,7 +95,8 @@ app = FastAPI(
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
-        "http://localhost:3000",  # Main dashboard frontend
+        "http://localhost:8080",  # Main dashboard frontend
+        "http://localhost:3000",  # Alternative frontend port
         "http://localhost:3001",  # Medical imaging frontend
         "http://localhost:3002",  # AI diagnostics frontend
         "http://localhost:3007",  # Genomic intelligence frontend
