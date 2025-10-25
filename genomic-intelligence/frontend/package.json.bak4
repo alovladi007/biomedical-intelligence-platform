@@ -1,11 +1,11 @@
 {
-  "name": "@biomedical/drug-discovery-ai-frontend",
+  "name": "@biomedical/genomic-intelligence-frontend",
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "next dev -p 4002",
+    "dev": "next dev -p 3007",
     "build": "next build",
-    "start": "next start -p 4002",
+    "start": "next start -p 3007",
     "lint": "next lint"
   },
   "dependencies": {
