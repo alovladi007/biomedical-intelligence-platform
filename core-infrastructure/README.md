@@ -17,7 +17,7 @@ core-infrastructure/
 │   ├── src/
 │   │   ├── dicom_ingestion_service.py      ✅ Complete
 │   │   ├── fhir_ingestion_service.py       ✅ Complete
-│   │   ├── genomic_ingestion_service.py    🔄 In Progress
+│   │   ├── genomic_ingestion_service.py    ✅ Complete
 │   │   ├── data_validator.py               ⏳ Pending
 │   │   └── storage_manager.py              ⏳ Pending
 │   ├── tests/
@@ -188,13 +188,61 @@ PatientName: [REMOVED]
 }
 ```
 
-## 📈 Next Steps (Week 1 - Days 3-7)
+### ✅ Genomic Data Ingestion Service
 
-### Day 3-4: Genomic Data Ingestion
-- [ ] VCF file parsing (variants)
-- [ ] BAM file handling (sequencing reads)
-- [ ] ClinVar annotation integration
-- [ ] Pharmacogenomics data
+**Supported Formats:**
+- **VCF** (Variant Call Format) - SNPs, indels, structural variants
+- **BAM/SAM/CRAM** - Aligned sequencing reads
+- **FASTQ** - Raw sequencing reads (single-end and paired-end)
+
+**Features:**
+- Variant extraction with ClinVar annotations
+- Alignment statistics calculation
+- Quality metrics for sequencing data
+- Pharmacogenomics gene identification (CYP2D6, CYP2C19, TPMT, DPYD, etc.)
+- Encrypted storage for genomic files
+
+**Example Usage:**
+```python
+from src.genomic_ingestion_service import GenomicIngestionService
+
+service = GenomicIngestionService(local_storage=True)
+
+# Ingest VCF file
+result = service.ingest_vcf(
+    file_path="/path/to/patient.vcf.gz",
+    patient_pseudonym="PATIENT_12345",
+    sample_metadata={"sequencing_platform": "Illumina NovaSeq"}
+)
+
+print(f"Variants processed: {result['variant_count']}")
+print(f"Storage key: {result['storage_key']}")
+
+# Annotate pharmacogenomics variants
+pgx_result = service.annotate_pharmacogenomics(
+    vcf_storage_key=result['storage_key']
+)
+
+print(f"PGx variants found: {len(pgx_result['pgx_variants'])}")
+```
+
+**Output:**
+```json
+{
+  "success": true,
+  "file_type": "vcf",
+  "variant_count": 3547892,
+  "storage_key": "genomics/PATIENT_12345/vcf/a7f3c2e9.json",
+  "content_hash": "a7f3c2e9...",
+  "metadata": {
+    "reference_genome": "GRCh38",
+    "sample_names": ["SAMPLE_001"],
+    "contigs": [{"id": "chr1", "length": 248956422}, ...]
+  }
+}
+```
+
+## 📈 Next Steps (Week 1 - Days 5-7)
 
 ### Day 5-6: Storage Layer
 - [ ] PostgreSQL schema design
@@ -303,6 +351,6 @@ This is foundational infrastructure used by all services. Changes require:
 
 ---
 
-**Status:** Week 1, Day 2 - On Track ✅
-**Next Milestone:** Complete genomic ingestion by Day 4
+**Status:** Week 1, Day 4 - On Track ✅
+**Next Milestone:** Complete storage layer by Day 6
 **Timeline:** 4-6 weeks total
