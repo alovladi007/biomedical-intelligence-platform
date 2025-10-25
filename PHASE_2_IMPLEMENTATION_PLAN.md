@@ -1050,7 +1050,7 @@ class VariantAnnotator:
             self.gnomad_api,
             json={
                 'query': f'''
-                {{
+                query GetVariant {{
                   variant(dataset: gnomad_r3, variantId: "{chrom}-{pos}-{ref}-{alt}") {{
                     genome {{
                       ac
