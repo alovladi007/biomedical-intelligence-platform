@@ -18,6 +18,8 @@ SERVICES=(
   "hipaa-compliance"
   "biotensor-labs"
   "mynx-natalcare"
+  "genomic-intelligence"
+  "drug-discovery-ai"
 )
 
 echo -e "${BLUE}📦 Installing Dependencies for All Services${NC}"
