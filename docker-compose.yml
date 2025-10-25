@@ -1,189 +1,72 @@
 version: '3.8'
 
 services:
-  # AI Diagnostics Services
-  ai-diagnostics-backend:
+  medical-imaging-ai:
     build:
-      context: ./ai-diagnostics/backend
+      context: ./medical-imaging-ai
       dockerfile: Dockerfile
     ports:
       - "5001:5001"
     environment:
-      - PORT=5001
-      - NODE_ENV=production
-      - CORS_ORIGINS=http://localhost:3007
-      - DEMO_MODE=true
-    networks:
-      - biomedical-network
-    restart: unless-stopped
+      - SERVICE_NAME=medical-imaging-ai
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5001/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
 
-  ai-diagnostics-frontend:
+  ai-diagnostics:
     build:
-      context: ./ai-diagnostics/frontend
-      dockerfile: Dockerfile
-    ports:
-      - "3007:3007"
-    depends_on:
-      - ai-diagnostics-backend
-    networks:
-      - biomedical-network
-    restart: unless-stopped
-
-  # Medical Imaging Services
-  medical-imaging-backend:
-    build:
-      context: ./medical-imaging/backend
+      context: ./ai-diagnostics
       dockerfile: Dockerfile
     ports:
       - "5002:5002"
     environment:
-      - PORT=5002
-      - NODE_ENV=production
-      - CORS_ORIGINS=http://localhost:3002
-      - DEMO_MODE=true
-    networks:
-      - biomedical-network
-    restart: unless-stopped
+      - SERVICE_NAME=ai-diagnostics
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5002/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
 
-  medical-imaging-frontend:
+  genomic-intelligence:
     build:
-      context: ./medical-imaging/frontend
+      context: ./genomic-intelligence-service
       dockerfile: Dockerfile
     ports:
-      - "3002:3002"
-    depends_on:
-      - medical-imaging-backend
-    networks:
-      - biomedical-network
-    restart: unless-stopped
-
-  # Biosensing Services
-  biosensing-backend:
-    build:
-      context: ./biosensing/backend
-      dockerfile: Dockerfile
-    ports:
-      - "5003:5003"
+      - "5007:5007"
     environment:
-      - PORT=5003
-      - NODE_ENV=production
-      - CORS_ORIGINS=http://localhost:3003
-      - DEMO_MODE=true
-    networks:
-      - biomedical-network
-    restart: unless-stopped
+      - SERVICE_NAME=genomic-intelligence
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5007/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
 
-  biosensing-frontend:
+  obicare:
     build:
-      context: ./biosensing/frontend
+      context: ./phase4-services/obicare
       dockerfile: Dockerfile
     ports:
-      - "3003:3003"
-    depends_on:
-      - biosensing-backend
-    networks:
-      - biomedical-network
-    restart: unless-stopped
-
-  # HIPAA Compliance Services
-  hipaa-compliance-backend:
-    build:
-      context: ./hipaa-compliance/backend
-      dockerfile: Dockerfile
-    ports:
-      - "5004:5004"
+      - "5010:5010"
     environment:
-      - PORT=5004
-      - NODE_ENV=production
-      - CORS_ORIGINS=http://localhost:3004
-      - DEMO_MODE=true
-    networks:
-      - biomedical-network
-    restart: unless-stopped
+      - SERVICE_NAME=obicare
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5010/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
 
-  hipaa-compliance-frontend:
+  hipaa-monitor:
     build:
-      context: ./hipaa-compliance/frontend
+      context: ./phase4-services/hipaa-monitor
       dockerfile: Dockerfile
     ports:
-      - "3004:3004"
-    depends_on:
-      - hipaa-compliance-backend
-    networks:
-      - biomedical-network
-    restart: unless-stopped
-
-  # BioTensor Labs Services
-  biotensor-labs-backend:
-    build:
-      context: ./biotensor-labs/backend
-      dockerfile: Dockerfile
-    ports:
-      - "5005:5005"
+      - "5011:5011"
     environment:
-      - PORT=5005
-      - NODE_ENV=production
-      - CORS_ORIGINS=http://localhost:3005
-      - DEMO_MODE=true
-    networks:
-      - biomedical-network
-    restart: unless-stopped
-
-  biotensor-labs-frontend:
-    build:
-      context: ./biotensor-labs/frontend
-      dockerfile: Dockerfile
-    ports:
-      - "3005:3005"
-    depends_on:
-      - biotensor-labs-backend
-    networks:
-      - biomedical-network
-    restart: unless-stopped
-
-  # MYNX NatalCare Services
-  mynx-natalcare-backend:
-    build:
-      context: ./mynx-natalcare/backend
-      dockerfile: Dockerfile
-    ports:
-      - "5006:5006"
-    environment:
-      - PORT=5006
-      - NODE_ENV=production
-      - CORS_ORIGINS=http://localhost:3006
-      - DEMO_MODE=true
-    networks:
-      - biomedical-network
-    restart: unless-stopped
-
-  mynx-natalcare-frontend:
-    build:
-      context: ./mynx-natalcare/frontend
-      dockerfile: Dockerfile
-    ports:
-      - "3006:3006"
-    depends_on:
-      - mynx-natalcare-backend
-    networks:
-      - biomedical-network
-    restart: unless-stopped
-
-  # Landing Page
-  landing-page:
-    image: nginx:alpine
-    ports:
-      - "8080:80"
-    volumes:
-      - ./index.html:/usr/share/nginx/html/index.html:ro
-    networks:
-      - biomedical-network
-    restart: unless-stopped
-
-networks:
-  biomedical-network:
-    driver: bridge
-
-volumes:
-  postgres-data:
-  redis-data:
+      - SERVICE_NAME=hipaa-monitor
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5011/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3

@@ -1,27 +1,42 @@
 #!/bin/bash
 
-# BioMedical Platform - Stop All Services
+# Stop All Services Script
 
-echo "🛑 Stopping all BioMedical Platform services..."
-echo ""
+echo "=========================================="
+echo "Stopping All Services"
+echo "=========================================="
 
-# Stop all services by PID
-for pid_file in /tmp/*-Backend.pid /tmp/*-Frontend.pid; do
-    if [ -f "$pid_file" ]; then
-        service_name=$(basename "$pid_file" .pid)
-        pid=$(cat "$pid_file")
+GREEN='\033[0;32m'
+RED='\033[0;31m'
+NC='\033[0m'
 
-        if ps -p $pid > /dev/null 2>&1; then
-            echo "Stopping $service_name (PID: $pid)..."
-            kill $pid
-            rm "$pid_file"
+# Function to stop a service
+stop_service() {
+    local service_name=$1
+    local service_dir=$2
+
+    if [ -f "$service_dir/service.pid" ]; then
+        PID=$(cat $service_dir/service.pid)
+        if ps -p $PID > /dev/null 2>&1; then
+            kill $PID 2>/dev/null
+            echo -e "${GREEN}✓ $service_name stopped (PID: $PID)${NC}"
         else
-            echo "$service_name is not running"
-            rm "$pid_file"
+            echo -e "${RED}✗ $service_name not running${NC}"
         fi
+        rm $service_dir/service.pid
+    else
+        echo "  $service_name: No PID file found"
     fi
-done
+}
+
+# Stop Phase 2 services
+stop_service "Medical Imaging AI" "medical-imaging-ai"
+stop_service "AI Diagnostics" "ai-diagnostics"
+stop_service "Genomic Intelligence" "genomic-intelligence-service"
+
+# Stop Phase 4 services
+stop_service "OBiCare" "phase4-services/obicare"
+stop_service "HIPAA Monitor" "phase4-services/hipaa-monitor"
 
 echo ""
-echo "✓ All services stopped"
-echo ""
+echo "All services stopped"
