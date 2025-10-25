@@ -1,0 +1,166 @@
+{
+  "dashboard": {
+    "title": "Biomedical Intelligence Platform - Overview",
+    "tags": ["biomedical", "ai", "healthcare"],
+    "timezone": "utc",
+    "panels": [
+      {
+        "id": 1,
+        "title": "Service Health Status",
+        "type": "stat",
+        "targets": [
+          {
+            "expr": "service_health",
+            "legendFormat": "{{service}}"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {"value": 0, "color": "red"},
+                {"value": 1, "color": "green"}
+              ]
+            },
+            "mappings": [
+              {"value": 0, "text": "Down"},
+              {"value": 1, "text": "Healthy"}
+            ]
+          }
+        },
+        "gridPos": {"x": 0, "y": 0, "w": 24, "h": 4}
+      },
+      {
+        "id": 2,
+        "title": "HTTP Request Rate",
+        "type": "graph",
+        "targets": [
+          {
+            "expr": "rate(http_requests_total[5m])",
+            "legendFormat": "{{service}} - {{method}} {{endpoint}}"
+          }
+        ],
+        "yaxes": [
+          {"label": "Requests/sec", "format": "short"},
+          {"format": "short"}
+        ],
+        "gridPos": {"x": 0, "y": 4, "w": 12, "h": 8}
+      },
+      {
+        "id": 3,
+        "title": "HTTP Request Duration (p95)",
+        "type": "graph",
+        "targets": [
+          {
+            "expr": "histogram_quantile(0.95, rate(http_request_duration_seconds_bucket[5m]))",
+            "legendFormat": "{{service}} - {{endpoint}}"
+          }
+        ],
+        "yaxes": [
+          {"label": "Duration (seconds)", "format": "s"},
+          {"format": "short"}
+        ],
+        "gridPos": {"x": 12, "y": 4, "w": 12, "h": 8}
+      },
+      {
+        "id": 4,
+        "title": "Model Predictions Rate",
+        "type": "graph",
+        "targets": [
+          {
+            "expr": "rate(model_predictions_total[5m])",
+            "legendFormat": "{{service}} - {{model_name}}"
+          }
+        ],
+        "yaxes": [
+          {"label": "Predictions/sec", "format": "short"},
+          {"format": "short"}
+        ],
+        "gridPos": {"x": 0, "y": 12, "w": 12, "h": 8}
+      },
+      {
+        "id": 5,
+        "title": "Model Prediction Duration",
+        "type": "graph",
+        "targets": [
+          {
+            "expr": "histogram_quantile(0.95, rate(model_prediction_duration_seconds_bucket[5m]))",
+            "legendFormat": "{{service}} - {{model_name}}"
+          }
+        ],
+        "yaxes": [
+          {"label": "Duration (seconds)", "format": "s"},
+          {"format": "short"}
+        ],
+        "gridPos": {"x": 12, "y": 12, "w": 12, "h": 8}
+      },
+      {
+        "id": 6,
+        "title": "Error Rate",
+        "type": "graph",
+        "targets": [
+          {
+            "expr": "rate(errors_total[5m])",
+            "legendFormat": "{{service}} - {{error_type}}"
+          }
+        ],
+        "yaxes": [
+          {"label": "Errors/sec", "format": "short"},
+          {"format": "short"}
+        ],
+        "gridPos": {"x": 0, "y": 20, "w": 12, "h": 8}
+      },
+      {
+        "id": 7,
+        "title": "Authentication Attempts",
+        "type": "graph",
+        "targets": [
+          {
+            "expr": "rate(auth_attempts_total[5m])",
+            "legendFormat": "{{status}}"
+          }
+        ],
+        "yaxes": [
+          {"label": "Attempts/sec", "format": "short"},
+          {"format": "short"}
+        ],
+        "gridPos": {"x": 12, "y": 20, "w": 12, "h": 8}
+      },
+      {
+        "id": 8,
+        "title": "PHI Access Events (HIPAA)",
+        "type": "graph",
+        "targets": [
+          {
+            "expr": "rate(phi_access_total[5m])",
+            "legendFormat": "{{user_role}} - {{resource_type}}"
+          }
+        ],
+        "yaxes": [
+          {"label": "Access Events/sec", "format": "short"},
+          {"format": "short"}
+        ],
+        "gridPos": {"x": 0, "y": 28, "w": 12, "h": 8}
+      },
+      {
+        "id": 9,
+        "title": "Database Connections",
+        "type": "graph",
+        "targets": [
+          {
+            "expr": "db_connections_active",
+            "legendFormat": "{{service}}"
+          }
+        ],
+        "yaxes": [
+          {"label": "Active Connections", "format": "short"},
+          {"format": "short"}
+        ],
+        "gridPos": {"x": 12, "y": 28, "w": 12, "h": 8}
+      }
+    ],
+    "time": {"from": "now-1h", "to": "now"},
+    "refresh": "10s"
+  }
+}

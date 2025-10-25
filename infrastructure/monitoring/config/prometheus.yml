@@ -1,0 +1,63 @@
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+  external_labels:
+    cluster: 'biomedical-platform'
+    environment: 'production'
+
+# Alertmanager configuration (optional)
+# alerting:
+#   alertmanagers:
+#     - static_configs:
+#         - targets:
+#           - 'alertmanager:9093'
+
+# Load alerting rules
+# rule_files:
+#   - "alerts/*.yml"
+
+scrape_configs:
+  # Medical Imaging AI Service
+  - job_name: 'medical-imaging-ai'
+    static_configs:
+      - targets: ['host.docker.internal:5001']
+    metrics_path: '/metrics'
+    scrape_interval: 10s
+
+  # AI Diagnostics Service
+  - job_name: 'ai-diagnostics'
+    static_configs:
+      - targets: ['host.docker.internal:5002']
+    metrics_path: '/metrics'
+    scrape_interval: 10s
+
+  # Genomic Intelligence Service
+  - job_name: 'genomic-intelligence'
+    static_configs:
+      - targets: ['host.docker.internal:5007']
+    metrics_path: '/metrics'
+    scrape_interval: 10s
+
+  # OBiCare Service
+  - job_name: 'obicare'
+    static_configs:
+      - targets: ['host.docker.internal:5010']
+    metrics_path: '/metrics'
+    scrape_interval: 10s
+
+  # HIPAA Monitor Service
+  - job_name: 'hipaa-monitor'
+    static_configs:
+      - targets: ['host.docker.internal:5011']
+    metrics_path: '/metrics'
+    scrape_interval: 10s
+
+  # PostgreSQL Exporter (optional)
+  # - job_name: 'postgres'
+  #   static_configs:
+  #     - targets: ['postgres-exporter:9187']
+
+  # Prometheus self-monitoring
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['localhost:9090']
