@@ -41,9 +41,9 @@ export default function Dashboard() {
   }, [])
 
   const filteredStudies = studies.filter(s =>
-    s.patientName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    s.studyType.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    s.modality.toLowerCase().includes(searchTerm.toLowerCase())
+    s.patientName?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    s.studyType?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    s.modality?.toLowerCase().includes(searchTerm.toLowerCase())
   )
 
   const getStatusIcon = (status: string) => {
@@ -149,7 +149,7 @@ export default function Dashboard() {
                 <CheckCircle className="h-5 w-5 text-green-600" />
               </div>
               <div className="text-2xl font-bold text-gray-900">
-                {studies.filter(s => s.aiAnalysis.completed).length}
+                {studies.filter(s => s.aiAnalysis?.completed).length}
               </div>
               <div className="text-xs text-green-600 mt-1">Analysis complete</div>
             </div>
@@ -171,8 +171,8 @@ export default function Dashboard() {
                 <TrendingUp className="h-5 w-5 text-blue-600" />
               </div>
               <div className="text-2xl font-bold text-gray-900">
-                {studies.filter(s => s.aiAnalysis.completed).length > 0
-                  ? `${((studies.filter(s => s.aiAnalysis.completed).reduce((acc, s) => acc + s.aiAnalysis.confidence, 0) / studies.filter(s => s.aiAnalysis.completed).length) * 100).toFixed(1)}%`
+                {studies.filter(s => s.aiAnalysis?.completed).length > 0
+                  ? `${((studies.filter(s => s.aiAnalysis?.completed).reduce((acc, s) => acc + (s.aiAnalysis?.confidence || 0), 0) / studies.filter(s => s.aiAnalysis?.completed).length) * 100).toFixed(1)}%`
                   : '0%'
                 }
               </div>
@@ -248,10 +248,10 @@ export default function Dashboard() {
                           </div>
                         </td>
                         <td className="px-6 py-4">
-                          {study.aiAnalysis.completed ? (
+                          {study.aiAnalysis?.completed ? (
                             <div className="flex items-center gap-2">
                               <CheckCircle className="h-4 w-4 text-green-600" />
-                              <span className="text-sm text-green-600">{(study.aiAnalysis.confidence * 100).toFixed(0)}%</span>
+                              <span className="text-sm text-green-600">{((study.aiAnalysis?.confidence || 0) * 100).toFixed(0)}%</span>
                             </div>
                           ) : (
                             <span className="text-sm text-gray-400">Pending</span>
@@ -327,15 +327,15 @@ export default function Dashboard() {
 
               <div className="pt-4 border-t border-gray-200">
                 <div className="text-sm font-medium text-gray-500 mb-3">AI Analysis Results</div>
-                {selectedStudy.aiAnalysis.completed ? (
+                {selectedStudy.aiAnalysis?.completed ? (
                   <div className="space-y-3">
                     <div className="flex items-center justify-between p-3 bg-green-50 rounded-lg">
                       <span className="text-sm font-medium text-green-900">Analysis Complete</span>
-                      <span className="text-sm text-green-700">Confidence: {(selectedStudy.aiAnalysis.confidence * 100).toFixed(1)}%</span>
+                      <span className="text-sm text-green-700">Confidence: {((selectedStudy.aiAnalysis?.confidence || 0) * 100).toFixed(1)}%</span>
                     </div>
                     <div className="text-sm font-medium text-gray-700 mb-2">Findings:</div>
                     <ul className="space-y-2">
-                      {selectedStudy.aiAnalysis.findings.map((finding, idx) => (
+                      {selectedStudy.aiAnalysis?.findings?.map((finding, idx) => (
                         <li key={idx} className="flex items-start gap-2 text-sm text-gray-700">
                           <span className="text-indigo-600 mt-1">•</span>
                           <span>{finding}</span>

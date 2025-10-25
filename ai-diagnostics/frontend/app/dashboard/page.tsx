@@ -35,8 +35,8 @@ export default function Dashboard() {
   }, [])
 
   const filteredDiagnostics = diagnostics.filter(d =>
-    d.patientName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    d.condition.toLowerCase().includes(searchTerm.toLowerCase())
+    d.patientName?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    d.condition?.toLowerCase().includes(searchTerm.toLowerCase())
   )
 
   const getRiskColor = (score: number) => {

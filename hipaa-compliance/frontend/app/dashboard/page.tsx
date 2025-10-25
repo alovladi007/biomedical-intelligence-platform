@@ -62,9 +62,9 @@ export default function Dashboard() {
   }, [])
 
   const filteredLogs = auditLogs.filter(log =>
-    log.userName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    log.action.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    log.resourceType.toLowerCase().includes(searchTerm.toLowerCase())
+    log.userName?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    log.action?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    log.resourceType?.toLowerCase().includes(searchTerm.toLowerCase())
   )
 
   const getStatusBadge = (status: string) => {

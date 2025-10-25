@@ -65,7 +65,7 @@ export default function Dashboard() {
   }, [])
 
   const filteredPatients = patients.filter(p =>
-    p.name.toLowerCase().includes(searchTerm.toLowerCase())
+    p.name?.toLowerCase().includes(searchTerm.toLowerCase())
   )
 
   const getRiskBadgeColor = (risk: string) => {

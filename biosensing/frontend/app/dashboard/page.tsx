@@ -58,9 +58,9 @@ export default function Dashboard() {
   }, [])
 
   const filteredDevices = devices.filter(d =>
-    d.deviceName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    d.patientName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    d.deviceType.toLowerCase().includes(searchTerm.toLowerCase())
+    d.deviceName?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    d.patientName?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    d.deviceType?.toLowerCase().includes(searchTerm.toLowerCase())
   )
 
   const getStatusBadge = (status: string) => {
@@ -197,7 +197,7 @@ export default function Dashboard() {
                 <AlertTriangle className="h-5 w-5 text-yellow-600" />
               </div>
               <div className="text-2xl font-bold text-gray-900">
-                {devices.reduce((acc, d) => acc + d.alerts, 0)}
+                {devices.reduce((acc, d) => acc + (d.alerts || 0), 0)}
               </div>
               <div className="text-xs text-yellow-600 mt-1">Requires attention</div>
             </div>
@@ -273,22 +273,22 @@ export default function Dashboard() {
                           </td>
                           <td className="px-6 py-4">
                             <div className="flex items-center gap-2">
-                              <Battery className={`h-4 w-4 ${getBatteryColor(device.battery)}`} />
-                              <span className={`text-sm font-medium ${getBatteryColor(device.battery)}`}>
-                                {device.battery}%
+                              <Battery className={`h-4 w-4 ${getBatteryColor(device.battery || 0)}`} />
+                              <span className={`text-sm font-medium ${getBatteryColor(device.battery || 0)}`}>
+                                {device.battery || 0}%
                               </span>
                             </div>
                           </td>
                           <td className="px-6 py-4">
                             <div>
                               <div className="text-sm font-medium text-gray-900">
-                                {device.lastReading.value} {device.lastReading.unit}
+                                {device.lastReading?.value || 'N/A'} {device.lastReading?.unit || ''}
                               </div>
-                              <div className="text-xs text-gray-500">{device.lastReading.timestamp}</div>
+                              <div className="text-xs text-gray-500">{device.lastReading?.timestamp || 'N/A'}</div>
                             </div>
                           </td>
                           <td className="px-6 py-4">
-                            {device.alerts > 0 ? (
+                            {(device.alerts || 0) > 0 ? (
                               <span className="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-red-100 text-red-800">
                                 {device.alerts} Alert{device.alerts > 1 ? 's' : ''}
                               </span>
@@ -400,15 +400,15 @@ export default function Dashboard() {
                   <div>
                     <div className="text-sm font-medium text-gray-500 mb-2">Battery Level</div>
                     <div className="flex items-center gap-2">
-                      <Battery className={`h-6 w-6 ${getBatteryColor(selectedDevice.battery)}`} />
-                      <span className={`text-2xl font-bold ${getBatteryColor(selectedDevice.battery)}`}>
-                        {selectedDevice.battery}%
+                      <Battery className={`h-6 w-6 ${getBatteryColor(selectedDevice.battery || 0)}`} />
+                      <span className={`text-2xl font-bold ${getBatteryColor(selectedDevice.battery || 0)}`}>
+                        {selectedDevice.battery || 0}%
                       </span>
                     </div>
                   </div>
                   <div>
                     <div className="text-sm font-medium text-gray-500 mb-2">Active Alerts</div>
-                    <div className="text-2xl font-bold text-gray-900">{selectedDevice.alerts}</div>
+                    <div className="text-2xl font-bold text-gray-900">{selectedDevice.alerts || 0}</div>
                   </div>
                 </div>
               </div>
@@ -419,17 +419,17 @@ export default function Dashboard() {
                   <div className="grid grid-cols-2 gap-4">
                     <div>
                       <div className="text-sm text-green-700">Type</div>
-                      <div className="text-lg font-semibold text-green-900">{selectedDevice.lastReading.type}</div>
+                      <div className="text-lg font-semibold text-green-900">{selectedDevice.lastReading?.type || 'N/A'}</div>
                     </div>
                     <div>
                       <div className="text-sm text-green-700">Value</div>
                       <div className="text-lg font-semibold text-green-900">
-                        {selectedDevice.lastReading.value} {selectedDevice.lastReading.unit}
+                        {selectedDevice.lastReading?.value || 'N/A'} {selectedDevice.lastReading?.unit || ''}
                       </div>
                     </div>
                     <div className="col-span-2">
                       <div className="text-sm text-green-700">Timestamp</div>
-                      <div className="text-lg font-semibold text-green-900">{selectedDevice.lastReading.timestamp}</div>
+                      <div className="text-lg font-semibold text-green-900">{selectedDevice.lastReading?.timestamp || 'N/A'}</div>
                     </div>
                   </div>
                 </div>

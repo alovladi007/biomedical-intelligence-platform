@@ -69,8 +69,8 @@ export default function Dashboard() {
   }, [])
 
   const filteredExperiments = experiments.filter(exp =>
-    exp.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    exp.framework.toLowerCase().includes(searchTerm.toLowerCase())
+    exp.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    exp.framework?.toLowerCase().includes(searchTerm.toLowerCase())
   )
 
   const getStatusBadge = (status: string) => {
