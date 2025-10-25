@@ -1,3 +1,5 @@
+import './globals.css';
+
 export const metadata = {
   title: 'MYNX NatalCare - Maternal Health Monitoring',
   description: 'Advanced maternal health monitoring platform',
