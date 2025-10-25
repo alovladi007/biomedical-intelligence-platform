@@ -1,7 +1,7 @@
 {
   "name": "@biomedical/mynx-natalcare-backend",
   "version": "1.0.0",
-  "description": "MYNX NatalCare - Maternal Health Monitoring Backend",
+  "description": "MYNX NatalCare - Maternal Health Monitoring Platform Backend",
   "main": "dist/index.js",
   "scripts": {
     "dev": "nodemon --exec ts-node src/index.ts",
@@ -10,7 +10,11 @@
     "lint": "eslint src --ext .ts",
     "test": "jest"
   },
-  "keywords": ["maternal-health", "prenatal-care", "health-monitoring"],
+  "keywords": [
+    "mynx-natalcare",
+    "healthcare",
+    "biomedical"
+  ],
   "author": "M.Y. Engineering and Technologies",
   "license": "MIT",
   "dependencies": {

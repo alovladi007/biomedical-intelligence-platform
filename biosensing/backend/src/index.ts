@@ -1,241 +1,264 @@
 /**
  * Biosensing Technology Backend
- * Real-time biosensor data processing with AWS IoT Core integration
+ * Real-time Health Monitoring Service
  */
 
-import express, { Application, Request, Response, NextFunction } from 'express';
+import express, { Application, Request, Response } from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
 import compression from 'compression';
+import morgan from 'morgan';
 import rateLimit from 'express-rate-limit';
-import { Server as SocketIOServer } from 'socket.io';
-import { createServer } from 'http';
-import dotenv from 'dotenv';
-import logger from './utils/logger';
-import { IoTDeviceManager } from './services/IoTDeviceManager';
-import { BiosensorDataProcessor } from './services/BiosensorDataProcessor';
-import { setupRoutes } from './routes';
-import { errorHandler } from './middleware/errorHandler';
+import { config } from 'dotenv';
 
-dotenv.config();
+// Load environment variables
+config();
 
 const app: Application = express();
-const httpServer = createServer(app);
+const PORT = process.env.PORT || 5003;
 
-// Socket.IO server for real-time communication
-const io = new SocketIOServer(httpServer, {
-  cors: {
-    origin: process.env.CORS_ORIGINS?.split(',') || ['http://localhost:3000'],
-    methods: ['GET', 'POST'],
-    credentials: true,
-  },
-  transports: ['websocket', 'polling'],
-});
+// ============================================================================
+// MIDDLEWARE
+// ============================================================================
 
-// Middleware
+// Security
 app.use(helmet());
-app.use(cors({
-  origin: process.env.CORS_ORIGINS?.split(',') || ['http://localhost:3000'],
+
+// CORS
+const corsOptions = {
+  origin: (process.env.CORS_ORIGINS || 'http://localhost:3003').split(','),
   credentials: true,
-}));
-app.use(compression());
+};
+app.use(cors(corsOptions));
+
+// Body parsing
 app.use(express.json({ limit: '10mb' }));
-app.use(express.urlencoded({ extended: true, limit: '10mb' }));
+app.use(express.urlencoded({ extended: true }));
+
+// Compression
+app.use(compression());
+
+// Logging
+app.use(morgan('combined'));
 
 // Rate limiting
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 100, // limit each IP to 100 requests per windowMs
-  message: 'Too many requests from this IP, please try again later.',
+  max: 200, // Higher limit for sensor data
 });
-app.use('/api/', limiter);
+app.use('/api', limiter);
 
-// Request logging
-app.use((req: Request, res: Response, next: NextFunction) => {
-  const start = Date.now();
-  res.on('finish', () => {
-    const duration = Date.now() - start;
-    logger.info({
-      method: req.method,
-      url: req.url,
-      status: res.statusCode,
-      duration: `${duration}ms`,
-      ip: req.ip,
-    });
-  });
-  next();
-});
-
-// Initialize IoT Device Manager
-const iotDeviceManager = new IoTDeviceManager(io);
-const biosensorProcessor = new BiosensorDataProcessor(io);
-
-// Store in app context
-app.locals.iotDeviceManager = iotDeviceManager;
-app.locals.biosensorProcessor = biosensorProcessor;
-
-// Connect IoT Device Manager events to Biosensor Processor
-iotDeviceManager.on('biosensor:data', async (event: any) => {
-  await biosensorProcessor.processReading(
-    event.deviceId,
-    event.patientId,
-    event.data
-  );
-});
-
-// Handle processed readings - store in database
-biosensorProcessor.on('biosensor:processed', async (event: any) => {
-  try {
-    const prisma = (await import('./db/prisma')).default;
-
-    await prisma.biosensorReading.create({
-      data: {
-        deviceId: event.deviceId,
-        patientId: event.patientId,
-        sensorType: event.reading.sensor_type,
-        value: event.reading.value,
-        unit: event.reading.unit,
-        timestamp: new Date(event.reading.timestamp),
-        qualityScore: event.reading.quality_score,
-        isAnomaly: event.reading.is_anomaly,
-        anomalyScore: event.reading.anomaly_score,
-        metadata: event.reading.metadata,
-      },
-    });
-  } catch (error) {
-    logger.error('Failed to store biosensor reading', { error });
-  }
-});
-
-// Handle alerts - store in database
-biosensorProcessor.on('biosensor:alerts', async (event: any) => {
-  try {
-    const prisma = (await import('./db/prisma')).default;
-
-    for (const alert of event.alerts) {
-      await prisma.alert.create({
-        data: {
-          deviceId: event.deviceId,
-          patientId: event.patientId,
-          level: alert.level,
-          message: alert.message,
-          thresholdType: alert.threshold_type,
-        },
-      });
-    }
-
-    logger.warn('Alerts generated', {
-      deviceId: event.deviceId,
-      patientId: event.patientId,
-      alertCount: event.alerts.length,
-    });
-  } catch (error) {
-    logger.error('Failed to store alerts', { error });
-  }
-});
-
-// Setup routes
-setupRoutes(app);
+// ============================================================================
+// ROUTES
+// ============================================================================
 
 // Health check
-app.get('/health', (req: Request, res: Response) => {
+app.get('/health', (_req: Request, res: Response) => {
   res.json({
     status: 'healthy',
-    service: 'biosensing-backend',
-    version: process.env.npm_package_version || '1.0.0',
     timestamp: new Date().toISOString(),
+    service: 'biosensing',
+    version: '1.0.0',
+    mode: process.env.DEMO_MODE === 'true' ? 'demo' : 'production',
   });
 });
 
 // Root endpoint
-app.get('/', (req: Request, res: Response) => {
+app.get('/', (_req: Request, res: Response) => {
   res.json({
-    service: 'Biosensing Technology Backend',
-    version: process.env.npm_package_version || '1.0.0',
+    service: 'Biosensing Technology',
+    description: 'Real-time Health Monitoring Platform',
+    version: '1.0.0',
+    status: 'running',
     endpoints: {
       health: '/health',
-      api: '/api/v1',
-      docs: '/api/docs',
+      devices: '/api/v1/devices',
+      readings: '/api/v1/readings',
+      alerts: '/api/v1/alerts',
+      stream: '/api/v1/stream',
     },
   });
 });
 
-// Error handling
-app.use(errorHandler);
-
-// Socket.IO connection handling
-io.on('connection', (socket) => {
-  logger.info('WebSocket client connected', { socketId: socket.id });
-
-  // Join device room
-  socket.on('subscribe:device', (deviceId: string) => {
-    socket.join(`device:${deviceId}`);
-    logger.info('Client subscribed to device', { socketId: socket.id, deviceId });
-  });
-
-  // Join patient room
-  socket.on('subscribe:patient', (patientId: string) => {
-    socket.join(`patient:${patientId}`);
-    logger.info('Client subscribed to patient', { socketId: socket.id, patientId });
-  });
-
-  // Unsubscribe
-  socket.on('unsubscribe', (room: string) => {
-    socket.leave(room);
-    logger.info('Client unsubscribed', { socketId: socket.id, room });
-  });
-
-  // Disconnect
-  socket.on('disconnect', () => {
-    logger.info('WebSocket client disconnected', { socketId: socket.id });
-  });
-
-  // Handle errors
-  socket.on('error', (error) => {
-    logger.error('WebSocket error', { socketId: socket.id, error });
-  });
-});
-
-// Graceful shutdown
-process.on('SIGTERM', async () => {
-  logger.info('SIGTERM signal received: closing HTTP server');
-
-  // Close Socket.IO connections
-  io.close(() => {
-    logger.info('Socket.IO server closed');
-  });
-
-  // Disconnect IoT devices
-  await iotDeviceManager.disconnectAll();
-
-  httpServer.close(() => {
-    logger.info('HTTP server closed');
-    process.exit(0);
+// Mock API endpoints for demo
+app.get('/api/v1/devices', (_req: Request, res: Response) => {
+  res.json({
+    success: true,
+    devices: [
+      {
+        id: 'DEV-001',
+        patientId: 'P001',
+        patientName: 'Alice Cooper',
+        type: 'Continuous Glucose Monitor',
+        manufacturer: 'Dexcom',
+        model: 'G7',
+        status: 'active',
+        lastReading: '2025-10-24T14:30:00Z',
+        batteryLevel: 85,
+      },
+      {
+        id: 'DEV-002',
+        patientId: 'P002',
+        patientName: 'Bob Wilson',
+        type: 'Blood Pressure Monitor',
+        manufacturer: 'Omron',
+        model: 'Evolv',
+        status: 'active',
+        lastReading: '2025-10-24T13:15:00Z',
+        batteryLevel: 62,
+      },
+      {
+        id: 'DEV-003',
+        patientId: 'P003',
+        patientName: 'Carol Martinez',
+        type: 'Heart Rate Monitor',
+        manufacturer: 'Polar',
+        model: 'H10',
+        status: 'offline',
+        lastReading: '2025-10-23T20:00:00Z',
+        batteryLevel: 15,
+      },
+    ],
+    total: 3,
   });
 });
 
-process.on('SIGINT', async () => {
-  logger.info('SIGINT signal received: closing HTTP server');
-
-  io.close(() => {
-    logger.info('Socket.IO server closed');
-  });
-
-  await iotDeviceManager.disconnectAll();
-
-  httpServer.close(() => {
-    logger.info('HTTP server closed');
-    process.exit(0);
+app.get('/api/v1/readings', (req: Request, res: Response) => {
+  const { deviceId, startTime, endTime } = req.query;
+  
+  // Mock sensor readings
+  const readings = [];
+  const now = new Date();
+  
+  for (let i = 0; i < 20; i++) {
+    const timestamp = new Date(now.getTime() - i * 5 * 60 * 1000); // Every 5 minutes
+    readings.push({
+      id: `READ-${Date.now()}-${i}`,
+      deviceId: deviceId || 'DEV-001',
+      timestamp: timestamp.toISOString(),
+      value: 95 + Math.random() * 30,
+      unit: 'mg/dL',
+      quality: 'good',
+    });
+  }
+  
+  res.json({
+    success: true,
+    readings: readings.reverse(),
+    total: readings.length,
   });
 });
 
-// Start server
-const PORT = process.env.PORT || 5003;
-
-httpServer.listen(PORT, () => {
-  logger.info(`🚀 Biosensing Backend started on port ${PORT}`);
-  logger.info(`📡 WebSocket server ready for real-time data streaming`);
-  logger.info(`☁️  AWS IoT Core integration enabled`);
+app.post('/api/v1/readings', (req: Request, res: Response) => {
+  const { deviceId, value, unit } = req.body;
+  
+  res.json({
+    success: true,
+    reading: {
+      id: `READ-${Date.now()}`,
+      deviceId,
+      value,
+      unit,
+      timestamp: new Date().toISOString(),
+      status: 'received',
+    },
+  });
 });
 
-export { app, io, iotDeviceManager, biosensorProcessor };
+app.get('/api/v1/alerts', (_req: Request, res: Response) => {
+  res.json({
+    success: true,
+    alerts: [
+      {
+        id: 'ALT-001',
+        deviceId: 'DEV-001',
+        patientId: 'P001',
+        patientName: 'Alice Cooper',
+        severity: 'high',
+        type: 'threshold',
+        message: 'Glucose level above target range',
+        value: 185,
+        threshold: 180,
+        timestamp: '2025-10-24T14:30:00Z',
+        acknowledged: false,
+      },
+      {
+        id: 'ALT-002',
+        deviceId: 'DEV-003',
+        patientId: 'P003',
+        patientName: 'Carol Martinez',
+        severity: 'medium',
+        type: 'connection',
+        message: 'Device offline for 18 hours',
+        timestamp: '2025-10-24T08:00:00Z',
+        acknowledged: false,
+      },
+    ],
+    total: 2,
+  });
+});
+
+app.post('/api/v1/alerts/:id/acknowledge', (req: Request, res: Response) => {
+  const { id } = req.params;
+  
+  res.json({
+    success: true,
+    alert: {
+      id,
+      acknowledged: true,
+      acknowledgedBy: 'Dr. Smith',
+      acknowledgedAt: new Date().toISOString(),
+    },
+  });
+});
+
+app.get('/api/v1/analytics', (_req: Request, res: Response) => {
+  res.json({
+    success: true,
+    analytics: {
+      totalDevices: 1247,
+      activeDevices: 1198,
+      totalReadings: 2847653,
+      avgReadingsPerDay: 124532,
+      activeAlerts: 23,
+      deviceTypes: {
+        'Glucose Monitor': 423,
+        'Blood Pressure': 387,
+        'Heart Rate': 234,
+        'Pulse Oximeter': 203,
+      },
+    },
+  });
+});
+
+// WebSocket simulation endpoint
+app.get('/api/v1/stream/connect', (_req: Request, res: Response) => {
+  res.json({
+    success: true,
+    message: 'WebSocket connection info',
+    endpoint: 'ws://localhost:5003/stream',
+    protocols: ['mqtt', 'websocket'],
+  });
+});
+
+// 404 handler
+app.use((_req: Request, res: Response) => {
+  res.status(404).json({
+    success: false,
+    error: 'Endpoint not found',
+  });
+});
+
+// ============================================================================
+// SERVER STARTUP
+// ============================================================================
+
+app.listen(PORT, () => {
+  console.log('📡 Biosensing Technology service started successfully');
+  console.log(`   Port: ${PORT}`);
+  console.log(`   Mode: ${process.env.DEMO_MODE === 'true' ? 'Demo' : 'Production'}`);
+  console.log(`📊 Health check: http://localhost:${PORT}/health`);
+  console.log(`🏥 API Base: http://localhost:${PORT}/api/v1`);
+});
+
+export default app;
