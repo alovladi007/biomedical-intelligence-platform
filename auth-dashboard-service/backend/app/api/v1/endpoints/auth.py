@@ -19,7 +19,7 @@ import sys
 import os
 sys.path.append(os.path.join(os.path.dirname(__file__), '../../../../../../'))
 
-from fastapi import APIRouter, Depends, HTTPException, status, Request, Body
+from fastapi import APIRouter, Depends, HTTPException, status, Request
 from sqlalchemy.orm import Session
 from typing import Dict
 from slowapi import Limiter
@@ -50,7 +50,7 @@ limiter = Limiter(key_func=get_remote_address)
 @limiter.limit("10/minute")  # Limit registration to 10 per minute
 async def register(
     request: Request,
-    request_data: RegisterRequest = Body(...),
+    request_data: RegisterRequest,
     db: Session = Depends(get_db)
 ):
     """
@@ -143,7 +143,7 @@ async def register(
 @limiter.limit("5/minute")  # Strict limit for login to prevent brute force
 async def login(
     request: Request,
-    login_request: LoginRequest = Body(...),
+    login_request: LoginRequest,
     db: Session = Depends(get_db)
 ):
     """
@@ -229,7 +229,7 @@ async def logout(
 
 @router.post("/refresh", response_model=RefreshTokenResponse)
 async def refresh_token(
-    request_data: RefreshTokenRequest = Body(...),
+    request_data: RefreshTokenRequest,
     db: Session = Depends(get_db)
 ):
     """
@@ -289,7 +289,7 @@ async def setup_mfa(
 
 @router.post("/mfa/verify", response_model=MFAVerifyResponse)
 async def verify_mfa(
-    request_data: MFAVerifyRequest = Body(...),
+    request_data: MFAVerifyRequest,
     current_user: Dict = Depends(get_current_user),
     db: Session = Depends(get_db)
 ):
@@ -387,7 +387,7 @@ async def get_me(
 
 @router.post("/change-password", response_model=ChangePasswordResponse)
 async def change_password(
-    request_data: ChangePasswordRequest = Body(...),
+    request_data: ChangePasswordRequest,
     current_user: Dict = Depends(get_current_user),
     db: Session = Depends(get_db)
 ):
