@@ -77,6 +77,17 @@ export default function DashboardPage() {
           <p className="text-gray-600">View prediction history</p>
         </Link>
 
+        <a
+          href="http://localhost:8001/docs"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow"
+        >
+          <div className="text-4xl mb-4">🩺</div>
+          <h2 className="text-xl font-semibold mb-2">AI Diagnostics</h2>
+          <p className="text-gray-600">Symptom checker & lab analysis</p>
+        </a>
+
         {(user?.role === 'admin' || user?.role === 'super_admin') && (
           <>
             <Link href="/dashboard/users" className="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow">

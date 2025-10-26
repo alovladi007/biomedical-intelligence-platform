@@ -179,7 +179,7 @@ if __name__ == "__main__":
     import argparse
     parser = argparse.ArgumentParser(description="AI Diagnostics Service")
     parser.add_argument("--host", default="0.0.0.0", help="Host address")
-    parser.add_argument("--port", type=int, default=5002, help="Port number")
+    parser.add_argument("--port", type=int, default=8001, help="Port number")
     parser.add_argument("--reload", action="store_true", help="Enable auto-reload")
     args = parser.parse_args()
 
