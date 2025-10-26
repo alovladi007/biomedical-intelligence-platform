@@ -1,11 +1,8 @@
 'use client';
 
-import { useAuth } from '@/lib/AuthContext';
 import Link from 'next/link';
 
 export default function DashboardPage() {
-  const { user } = useAuth();
-
   // Get current time greeting
   const getGreeting = () => {
     const hour = new Date().getHours();
@@ -19,23 +16,11 @@ export default function DashboardPage() {
       {/* Welcome Section */}
       <div className="bg-gradient-to-r from-blue-600 to-blue-800 text-white p-8 rounded-lg shadow-lg mb-8">
         <h1 className="text-3xl font-bold mb-2">
-          {getGreeting()}, {user?.first_name || user?.username}!
+          {getGreeting()}!
         </h1>
         <p className="text-blue-100">
           Welcome to the Biomedical Intelligence Platform
         </p>
-        <div className="mt-4 flex items-center space-x-6">
-          <div className="flex items-center">
-            <span className="text-blue-200 mr-2">Role:</span>
-            <span className="font-semibold capitalize bg-blue-700 px-3 py-1 rounded">
-              {user?.role?.replace('_', ' ')}
-            </span>
-          </div>
-          <div className="flex items-center">
-            <span className="text-blue-200 mr-2">Email:</span>
-            <span className="font-medium">{user?.email}</span>
-          </div>
-        </div>
       </div>
 
       {/* Quick Stats */}
@@ -88,21 +73,17 @@ export default function DashboardPage() {
           <p className="text-gray-600">Symptom checker & lab analysis</p>
         </a>
 
-        {(user?.role === 'admin' || user?.role === 'super_admin') && (
-          <>
-            <Link href="/dashboard/users" className="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow">
-              <div className="text-4xl mb-4">👥</div>
-              <h2 className="text-xl font-semibold mb-2">Users</h2>
-              <p className="text-gray-600">Manage user accounts</p>
-            </Link>
+        <Link href="/dashboard/users" className="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow">
+          <div className="text-4xl mb-4">👥</div>
+          <h2 className="text-xl font-semibold mb-2">Users</h2>
+          <p className="text-gray-600">Manage user accounts</p>
+        </Link>
 
-            <Link href="/dashboard/admin" className="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow">
-              <div className="text-4xl mb-4">⚙️</div>
-              <h2 className="text-xl font-semibold mb-2">Admin Panel</h2>
-              <p className="text-gray-600">System administration</p>
-            </Link>
-          </>
-        )}
+        <Link href="/dashboard/admin" className="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow">
+          <div className="text-4xl mb-4">⚙️</div>
+          <h2 className="text-xl font-semibold mb-2">Admin Panel</h2>
+          <p className="text-gray-600">System administration</p>
+        </Link>
       </div>
     </div>
   );
