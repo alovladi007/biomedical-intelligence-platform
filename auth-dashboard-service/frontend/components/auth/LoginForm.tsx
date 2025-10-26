@@ -25,7 +25,19 @@ export default function LoginForm() {
         setNeedsMfa(true);
         setError('Please enter your MFA code');
       } else {
-        setError(err.response?.data?.detail || 'Login failed. Please check your credentials.');
+        // Handle validation errors (array of objects) or string errors
+        const detail = err.response?.data?.detail;
+        if (typeof detail === 'string') {
+          setError(detail);
+        } else if (Array.isArray(detail)) {
+          // Pydantic validation error format
+          setError(detail.map((e: any) => e.msg).join(', '));
+        } else if (typeof detail === 'object' && detail !== null) {
+          // Single validation error object
+          setError(detail.msg || JSON.stringify(detail));
+        } else {
+          setError('Login failed. Please check your credentials.');
+        }
       }
     } finally {
       setLoading(false);
