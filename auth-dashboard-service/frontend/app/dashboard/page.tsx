@@ -63,7 +63,7 @@ export default function DashboardPage() {
         </Link>
 
         <a
-          href="http://localhost:8001/docs"
+          href="http://localhost:3007"
           target="_blank"
           rel="noopener noreferrer"
           className="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow"
