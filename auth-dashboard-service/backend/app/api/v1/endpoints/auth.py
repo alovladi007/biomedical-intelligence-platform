@@ -19,7 +19,7 @@ import sys
 import os
 sys.path.append(os.path.join(os.path.dirname(__file__), '../../../../../../'))
 
-from fastapi import APIRouter, Depends, HTTPException, status, Request
+from fastapi import APIRouter, Depends, HTTPException, status, Request, Body
 from sqlalchemy.orm import Session
 from typing import Dict
 from slowapi import Limiter
@@ -49,8 +49,8 @@ limiter = Limiter(key_func=get_remote_address)
 @router.post("/register", response_model=RegisterResponse, status_code=status.HTTP_201_CREATED)
 @limiter.limit("10/minute")  # Limit registration to 10 per minute
 async def register(
-    request_data: RegisterRequest,
     request: Request,
+    request_data: RegisterRequest = Body(...),
     db: Session = Depends(get_db)
 ):
     """
@@ -142,8 +142,8 @@ async def register(
 @router.post("/login", response_model=LoginResponse)
 @limiter.limit("5/minute")  # Strict limit for login to prevent brute force
 async def login(
-    request_data: LoginRequest,
     request: Request,
+    login_request: LoginRequest = Body(...),
     db: Session = Depends(get_db)
 ):
     """
@@ -157,9 +157,9 @@ async def login(
 
     try:
         result = auth_service.authenticate_user(
-            username=request_data.username,
-            password=request_data.password,
-            mfa_token=request_data.mfa_token,
+            username=login_request.username,
+            password=login_request.password,
+            mfa_token=login_request.mfa_token,
             ip_address=request.client.host,
             user_agent=request.headers.get("user-agent")
         )
@@ -184,7 +184,7 @@ async def login(
             event_type="login_failed",
             severity="warning",
             ip_address=request.client.host,
-            details={"username": request_data.username, "reason": str(e.detail)}
+            details={"username": login_request.username, "reason": str(e.detail)}
         )
         raise
 
@@ -229,7 +229,7 @@ async def logout(
 
 @router.post("/refresh", response_model=RefreshTokenResponse)
 async def refresh_token(
-    request_data: RefreshTokenRequest,
+    request_data: RefreshTokenRequest = Body(...),
     db: Session = Depends(get_db)
 ):
     """
@@ -289,7 +289,7 @@ async def setup_mfa(
 
 @router.post("/mfa/verify", response_model=MFAVerifyResponse)
 async def verify_mfa(
-    request_data: MFAVerifyRequest,
+    request_data: MFAVerifyRequest = Body(...),
     current_user: Dict = Depends(get_current_user),
     db: Session = Depends(get_db)
 ):
@@ -387,7 +387,7 @@ async def get_me(
 
 @router.post("/change-password", response_model=ChangePasswordResponse)
 async def change_password(
-    request_data: ChangePasswordRequest,
+    request_data: ChangePasswordRequest = Body(...),
     current_user: Dict = Depends(get_current_user),
     db: Session = Depends(get_db)
 ):
