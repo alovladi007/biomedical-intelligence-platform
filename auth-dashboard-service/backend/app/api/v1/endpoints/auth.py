@@ -13,6 +13,8 @@ Endpoints:
 - POST /auth/change-password - Change password
 """
 
+from __future__ import annotations
+
 import sys
 import os
 sys.path.append(os.path.join(os.path.dirname(__file__), '../../../../../../'))
@@ -20,6 +22,8 @@ sys.path.append(os.path.join(os.path.dirname(__file__), '../../../../../../'))
 from fastapi import APIRouter, Depends, HTTPException, status, Request
 from sqlalchemy.orm import Session
 from typing import Dict
+from slowapi import Limiter
+from slowapi.util import get_remote_address
 
 from infrastructure.database.src.database import get_db
 from infrastructure.database.src.models import User, UserRole
@@ -38,8 +42,12 @@ from app.schemas.auth_schemas import (
 
 router = APIRouter()
 
+# Rate limiter for authentication endpoints
+limiter = Limiter(key_func=get_remote_address)
+
 
 @router.post("/register", response_model=RegisterResponse, status_code=status.HTTP_201_CREATED)
+@limiter.limit("10/minute")  # Limit registration to 10 per minute
 async def register(
     request_data: RegisterRequest,
     request: Request,
@@ -132,6 +140,7 @@ async def register(
 
 
 @router.post("/login", response_model=LoginResponse)
+@limiter.limit("5/minute")  # Strict limit for login to prevent brute force
 async def login(
     request_data: LoginRequest,
     request: Request,

@@ -9,6 +9,8 @@ Features:
 - Password policies (HIPAA-compliant)
 """
 
+from __future__ import annotations
+
 import os
 import secrets
 import hashlib
@@ -25,6 +27,9 @@ from passlib.context import CryptContext
 from sqlalchemy.orm import Session
 import logging
 
+# Import get_db dependency
+from infrastructure.database.src.database import get_db
+
 logger = logging.getLogger(__name__)
 
 # Security configuration
@@ -36,7 +41,8 @@ MAX_FAILED_LOGIN_ATTEMPTS = 5
 ACCOUNT_LOCKOUT_DURATION_MINUTES = 30
 
 # Password hashing
-pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+# Use bcrypt directly to avoid passlib's wrap bug detection
+import bcrypt as _bcrypt
 
 # HTTP Bearer token authentication
 security = HTTPBearer()
@@ -54,13 +60,26 @@ class AuthService:
 
     @staticmethod
     def hash_password(password: str) -> str:
-        """Hash password using bcrypt"""
-        return pwd_context.hash(password)
+        """Hash password using bcrypt
+
+        Note: Bcrypt has a 72-byte limit. We truncate to 72 bytes to ensure compatibility.
+        """
+        # Truncate to 72 bytes (bcrypt limit)
+        password_bytes = password.encode('utf-8')[:72]
+        salt = _bcrypt.gensalt()
+        hashed = _bcrypt.hashpw(password_bytes, salt)
+        return hashed.decode('utf-8')
 
     @staticmethod
     def verify_password(plain_password: str, hashed_password: str) -> bool:
-        """Verify password against hash"""
-        return pwd_context.verify(plain_password, hashed_password)
+        """Verify password against hash
+
+        Note: Truncate password to 72 bytes to match hash_password behavior.
+        """
+        # Truncate to 72 bytes (bcrypt limit) - must match hash_password
+        password_bytes = plain_password.encode('utf-8')[:72]
+        hashed_bytes = hashed_password.encode('utf-8')
+        return _bcrypt.checkpw(password_bytes, hashed_bytes)
 
     @staticmethod
     def validate_password_strength(password: str) -> Tuple[bool, str]:
@@ -254,7 +273,7 @@ class AuthService:
         Returns:
             Tuple of (session_token, refresh_token)
         """
-        from database.src.models import User, UserSession
+        from infrastructure.database.src.models import User, UserSession
 
         # Get user
         user = self.db.query(User).filter(User.id == user_id).first()
@@ -290,7 +309,7 @@ class AuthService:
 
     def revoke_session(self, session_token: str):
         """Revoke user session (logout)"""
-        from database.src.models import UserSession
+        from infrastructure.database.src.models import UserSession
 
         session = self.db.query(UserSession).filter(
             UserSession.session_token == session_token
@@ -302,7 +321,7 @@ class AuthService:
 
     def revoke_all_user_sessions(self, user_id: int):
         """Revoke all sessions for a user"""
-        from database.src.models import UserSession
+        from infrastructure.database.src.models import UserSession
 
         self.db.query(UserSession).filter(
             UserSession.user_id == user_id,
@@ -312,7 +331,7 @@ class AuthService:
 
     def cleanup_expired_sessions(self):
         """Clean up expired sessions"""
-        from database.src.models import UserSession
+        from infrastructure.database.src.models import UserSession
 
         self.db.query(UserSession).filter(
             UserSession.expires_at < datetime.utcnow()
@@ -337,8 +356,8 @@ class AuthService:
         Returns:
             Dict with user info and tokens
         """
-        from database.src.models import User
-        from database.src.audit import AuditLogger
+        from infrastructure.database.src.models import User
+        from infrastructure.authentication.src.rbac_service import AuditLogger
 
         # Get user
         user = self.db.query(User).filter(User.username == username).first()
@@ -438,7 +457,7 @@ class AuthService:
         user_id = int(payload["sub"])
         username = payload["username"]
 
-        from database.src.models import User
+        from infrastructure.database.src.models import User
 
         # Get user to get current role
         user = self.db.query(User).filter(User.id == user_id).first()
@@ -464,7 +483,7 @@ class AuthService:
 
 async def get_current_user(
     credentials: HTTPAuthorizationCredentials = Depends(security),
-    db: Session = Depends(None)  # Will be replaced with actual DB dependency
+    db: Session = Depends(get_db)
 ) -> Dict:
     """
     FastAPI dependency to get current authenticated user
@@ -479,7 +498,7 @@ async def get_current_user(
     payload = auth_service.verify_token(token, token_type="access")
 
     # Verify session is not revoked
-    from database.src.models import UserSession
+    from infrastructure.database.src.models import UserSession
 
     session = db.query(UserSession).filter(
         UserSession.session_token == token,

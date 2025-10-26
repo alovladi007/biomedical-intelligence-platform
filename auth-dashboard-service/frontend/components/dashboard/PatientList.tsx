@@ -53,7 +53,32 @@ export default function PatientList() {
       </div>
 
       {loading ? (
-        <div className="text-center py-12">Loading...</div>
+        <div className="text-center py-12">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600 mx-auto"></div>
+          <p className="mt-4 text-gray-600">Loading patients...</p>
+        </div>
+      ) : patients.length === 0 ? (
+        <div className="bg-white rounded-lg shadow p-12 text-center">
+          <div className="text-6xl mb-4">👤</div>
+          <h3 className="text-xl font-semibold text-gray-900 mb-2">No Patients Yet</h3>
+          <p className="text-gray-600 mb-6">
+            Get started by adding your first patient to the system.
+          </p>
+          <Link
+            href="/dashboard/patients/new"
+            className="inline-block bg-indigo-600 text-white px-6 py-3 rounded-lg hover:bg-indigo-700 font-medium"
+          >
+            + Add First Patient
+          </Link>
+        </div>
+      ) : filteredPatients.length === 0 ? (
+        <div className="bg-white rounded-lg shadow p-12 text-center">
+          <div className="text-4xl mb-4">🔍</div>
+          <h3 className="text-xl font-semibold text-gray-900 mb-2">No Results Found</h3>
+          <p className="text-gray-600">
+            No patients match your search "{searchTerm}". Try a different search term.
+          </p>
+        </div>
       ) : (
         <div className="bg-white rounded-lg shadow overflow-hidden">
           <table className="min-w-full">
@@ -72,19 +97,24 @@ export default function PatientList() {
                   <td className="px-6 py-4 whitespace-nowrap font-mono text-sm">{patient.mrn}</td>
                   <td className="px-6 py-4 whitespace-nowrap">{patient.first_name} {patient.last_name}</td>
                   <td className="px-6 py-4 whitespace-nowrap">{new Date(patient.date_of_birth).toLocaleDateString()}</td>
-                  <td className="px-6 py-4 whitespace-nowrap">{patient.sex}</td>
+                  <td className="px-6 py-4 whitespace-nowrap capitalize">{patient.sex}</td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <Link
                       href={`/dashboard/patients/${patient.id}`}
-                      className="text-indigo-600 hover:text-indigo-900"
+                      className="text-indigo-600 hover:text-indigo-900 font-medium"
                     >
-                      View Details
+                      View Details →
                     </Link>
                   </td>
                 </tr>
               ))}
             </tbody>
           </table>
+          <div className="bg-gray-50 px-6 py-3 border-t border-gray-200">
+            <p className="text-sm text-gray-600">
+              Showing {filteredPatients.length} of {patients.length} patients
+            </p>
+          </div>
         </div>
       )}
     </div>

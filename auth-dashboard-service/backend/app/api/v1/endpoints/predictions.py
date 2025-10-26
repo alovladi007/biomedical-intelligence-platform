@@ -9,6 +9,8 @@ Endpoints:
 - GET /api/predictions/stats - Get prediction statistics
 """
 
+from __future__ import annotations
+
 import sys
 import os
 sys.path.append(os.path.join(os.path.dirname(__file__), '../../../../../../'))
@@ -127,9 +129,9 @@ async def get_prediction(
 @router.get("/patient/{patient_id}", response_model=PredictionListResponse)
 async def get_patient_predictions(
     patient_id: int,
+    request: Request,
     limit: int = Query(100, ge=1, le=1000),
     offset: int = Query(0, ge=0),
-    request: Request,
     current_user: Dict = Depends(get_current_user),
     db: Session = Depends(get_db)
 ):

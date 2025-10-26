@@ -2,10 +2,12 @@
 Database connection and session management
 """
 
+from __future__ import annotations
+
 import os
 from contextlib import contextmanager
 from typing import Generator
-from sqlalchemy import create_engine, event
+from sqlalchemy import create_engine, event, text
 from sqlalchemy.orm import sessionmaker, Session
 from sqlalchemy.pool import NullPool, QueuePool
 from .models import Base
@@ -113,7 +115,7 @@ class DatabaseManager:
         """Check database connection health"""
         try:
             with self.get_session() as session:
-                session.execute("SELECT 1")
+                session.execute(text("SELECT 1"))
             return True
         except Exception as e:
             logger.error(f"Database health check failed: {str(e)}")

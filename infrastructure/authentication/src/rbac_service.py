@@ -4,6 +4,8 @@ Role-Based Access Control (RBAC) Service
 Implements fine-grained permission management for HIPAA compliance
 """
 
+from __future__ import annotations
+
 from typing import List, Dict, Optional
 from sqlalchemy.orm import Session
 from fastapi import HTTPException, status
@@ -41,7 +43,7 @@ class RBACService:
         Returns:
             Created permission dict
         """
-        from database.src.models import Permission
+        from infrastructure.database.src.models import Permission
 
         # Check if permission already exists
         existing = self.db.query(Permission).filter(Permission.name == name).first()
@@ -74,7 +76,7 @@ class RBACService:
 
     def assign_permission_to_role(self, role: str, permission_name: str):
         """Assign a permission to a role"""
-        from database.src.models import Permission, RolePermission, UserRole
+        from infrastructure.database.src.models import Permission, RolePermission, UserRole
 
         # Get permission
         permission = self.db.query(Permission).filter(
@@ -110,7 +112,7 @@ class RBACService:
 
     def get_role_permissions(self, role: str) -> List[Dict]:
         """Get all permissions for a role"""
-        from database.src.models import Permission, RolePermission, UserRole
+        from infrastructure.database.src.models import Permission, RolePermission, UserRole
 
         permissions = self.db.query(Permission).join(
             RolePermission
@@ -150,7 +152,7 @@ class RBACService:
         Returns:
             True if user has permission, False otherwise
         """
-        from database.src.models import User, Permission, RolePermission
+        from infrastructure.database.src.models import User, Permission, RolePermission
 
         # Get user
         user = self.db.query(User).filter(User.id == user_id).first()
@@ -190,7 +192,7 @@ class RBACService:
             HTTPException: If user doesn't have permission
         """
         if not self.has_permission(user_id, resource, action):
-            from database.src.models import User
+            from infrastructure.database.src.models import User
             user = self.db.query(User).filter(User.id == user_id).first()
 
             logger.warning(
@@ -385,7 +387,7 @@ class AuditLogger:
 
         Required for HIPAA compliance - all PHI access must be logged
         """
-        from database.src.models import AuditLog, User
+        from infrastructure.database.src.models import AuditLog, User
 
         # Get user details if user_id provided
         username = None

@@ -1,0 +1,129 @@
+{
+  "timestamp": "2025-10-26 12:00:40",
+  "target": "http://localhost:8100",
+  "total_tests": 10,
+  "passed": 7,
+  "vulnerabilities": {
+    "critical": [
+      {
+        "category": "Security Misconfiguration",
+        "test": "HTTPS not enforced",
+        "description": "API accessible over unencrypted HTTP"
+      }
+    ],
+    "high": [],
+    "medium": [
+      {
+        "category": "Rate Limiting",
+        "test": "Rate limiting not implemented",
+        "description": "100/100 requests succeeded without rate limiting"
+      }
+    ],
+    "low": [],
+    "info": []
+  },
+  "security_score": 70,
+  "overall_assessment": "CRITICAL - Immediate action required",
+  "detailed_results": [
+    {
+      "category": "Authentication Bypass",
+      "tests": [
+        {
+          "test": "Authentication required",
+          "severity": "n/a",
+          "status": "pass",
+          "description": "Protected endpoints properly require authentication"
+        },
+        {
+          "test": "JWT algorithm validation",
+          "severity": "n/a",
+          "status": "pass",
+          "description": "JWT algorithm properly validated"
+        }
+      ]
+    },
+    {
+      "category": "SQL Injection",
+      "tests": [
+        {
+          "test": "SQL Injection prevention",
+          "severity": "n/a",
+          "status": "pass",
+          "description": "No SQL injection vulnerabilities detected"
+        }
+      ]
+    },
+    {
+      "category": "Cross-Site Scripting (XSS)",
+      "tests": [
+        {
+          "test": "XSS prevention",
+          "severity": "n/a",
+          "status": "pass",
+          "description": "Input properly sanitized"
+        }
+      ]
+    },
+    {
+      "category": "Insecure Direct Object Reference",
+      "tests": [
+        {
+          "test": "IDOR prevention",
+          "severity": "n/a",
+          "status": "pass",
+          "description": "Proper authorization checks in place"
+        }
+      ]
+    },
+    {
+      "category": "Security Misconfiguration",
+      "tests": [
+        {
+          "test": "Server information disclosure",
+          "severity": "low",
+          "status": "info",
+          "description": "Server header exposes: uvicorn"
+        },
+        {
+          "test": "HTTPS not enforced",
+          "severity": "critical",
+          "status": "vulnerable",
+          "description": "API accessible over unencrypted HTTP"
+        }
+      ]
+    },
+    {
+      "category": "Sensitive Data Exposure",
+      "tests": [
+        {
+          "test": "Sensitive data protection",
+          "severity": "n/a",
+          "status": "pass",
+          "description": "No sensitive data exposure detected"
+        }
+      ]
+    },
+    {
+      "category": "Rate Limiting",
+      "tests": [
+        {
+          "test": "Rate limiting not implemented",
+          "severity": "medium",
+          "status": "vulnerable",
+          "description": "100/100 requests succeeded without rate limiting"
+        }
+      ]
+    },
+    {
+      "category": "CORS Misconfiguration",
+      "tests": [
+        {
+          "test": "CORS properly configured",
+          "severity": "n/a",
+          "status": "pass",
+          "description": "CORS allows only specific origins"
+        }
+      ]
+    }
+  ]
+}

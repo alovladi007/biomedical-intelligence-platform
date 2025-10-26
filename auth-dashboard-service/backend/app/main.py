@@ -19,6 +19,10 @@ from fastapi.responses import JSONResponse
 from contextlib import asynccontextmanager
 import logging
 import time
+from slowapi import Limiter, _rate_limit_exceeded_handler
+from slowapi.util import get_remote_address
+from slowapi.errors import RateLimitExceeded
+from slowapi.middleware import SlowAPIMiddleware
 
 # Add parent directory to path to import infrastructure modules
 sys.path.append(os.path.join(os.path.dirname(__file__), '../../../'))
@@ -91,6 +95,13 @@ app = FastAPI(
     openapi_url="/openapi.json"
 )
 
+# Rate limiting configuration
+# Global rate limit: 50 requests per minute per IP
+# Specific endpoints have stricter limits (login: 5/min, register: 10/min)
+limiter = Limiter(key_func=get_remote_address, default_limits=["50/minute"])
+app.state.limiter = limiter
+app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
+
 # CORS middleware - Allow frontend to connect
 app.add_middleware(
     CORSMiddleware,
@@ -108,6 +119,9 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# Rate limiting middleware
+app.add_middleware(SlowAPIMiddleware)
 
 
 # Request logging middleware
@@ -156,8 +170,12 @@ async def log_requests(request: Request, call_next):
 # Exception handlers
 @app.exception_handler(HTTPException)
 async def http_exception_handler(request: Request, exc: HTTPException):
-    """Handle HTTP exceptions"""
-    return JSONResponse(
+    """Handle HTTP exceptions with CORS headers"""
+    # Get origin from request
+    origin = request.headers.get("origin")
+
+    # Create response
+    response = JSONResponse(
         status_code=exc.status_code,
         content={
             "detail": exc.detail,
@@ -165,18 +183,63 @@ async def http_exception_handler(request: Request, exc: HTTPException):
         }
     )
 
+    # Add CORS headers if origin is allowed
+    allowed_origins = [
+        "http://localhost:8081",
+        "http://localhost:8080",
+        "http://localhost:3000",
+        "http://localhost:3001",
+        "http://localhost:3002",
+        "http://localhost:3007",
+        "http://localhost:3010",
+        "http://localhost:3011",
+    ]
+
+    if origin in allowed_origins:
+        response.headers["Access-Control-Allow-Origin"] = origin
+        response.headers["Access-Control-Allow-Credentials"] = "true"
+        response.headers["Access-Control-Allow-Methods"] = "DELETE, GET, HEAD, OPTIONS, PATCH, POST, PUT"
+        response.headers["Access-Control-Allow-Headers"] = "*"
+
+    return response
+
 
 @app.exception_handler(Exception)
 async def general_exception_handler(request: Request, exc: Exception):
-    """Handle general exceptions"""
+    """Handle general exceptions with CORS headers"""
     logger.error(f"Unhandled exception: {str(exc)}", exc_info=True)
-    return JSONResponse(
+
+    # Get origin from request
+    origin = request.headers.get("origin")
+
+    # Create response
+    response = JSONResponse(
         status_code=500,
         content={
             "detail": "Internal server error",
             "status_code": 500
         }
     )
+
+    # Add CORS headers if origin is allowed
+    allowed_origins = [
+        "http://localhost:8081",
+        "http://localhost:8080",
+        "http://localhost:3000",
+        "http://localhost:3001",
+        "http://localhost:3002",
+        "http://localhost:3007",
+        "http://localhost:3010",
+        "http://localhost:3011",
+    ]
+
+    if origin in allowed_origins:
+        response.headers["Access-Control-Allow-Origin"] = origin
+        response.headers["Access-Control-Allow-Credentials"] = "true"
+        response.headers["Access-Control-Allow-Methods"] = "DELETE, GET, HEAD, OPTIONS, PATCH, POST, PUT"
+        response.headers["Access-Control-Allow-Headers"] = "*"
+
+    return response
 
 
 # Include routers
@@ -229,7 +292,7 @@ if __name__ == "__main__":
     import uvicorn
 
     uvicorn.run(
-        "main:app",
+        "app.main:app",
         host="0.0.0.0",
         port=8100,
         reload=True,
