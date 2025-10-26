@@ -1,45 +1,19 @@
 'use client';
 
-import { useAuth } from '@/lib/AuthContext';
-import { useRouter, usePathname } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { usePathname } from 'next/navigation';
+import { useState } from 'react';
 import Link from 'next/link';
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
-  const { user, loading, logout } = useAuth();
-  const router = useRouter();
   const pathname = usePathname();
   const [sidebarOpen, setSidebarOpen] = useState(true);
-
-  useEffect(() => {
-    if (!loading && !user) {
-      router.push('/login');
-    }
-  }, [user, loading, router]);
-
-  if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600 mx-auto mb-4"></div>
-          <p className="text-gray-600">Loading...</p>
-        </div>
-      </div>
-    );
-  }
-
-  if (!user) {
-    return null;
-  }
 
   const navigation = [
     { name: 'Overview', href: '/dashboard', icon: '📊' },
     { name: 'Patients', href: '/dashboard/patients', icon: '👤' },
     { name: 'Predictions', href: '/dashboard/predictions', icon: '🤖' },
-    ...(user.role === 'admin' || user.role === 'super_admin' ? [
-      { name: 'Users', href: '/dashboard/users', icon: '👥' },
-      { name: 'Admin', href: '/dashboard/admin', icon: '⚙️' },
-    ] : []),
+    { name: 'Users', href: '/dashboard/users', icon: '👥' },
+    { name: 'Admin', href: '/dashboard/admin', icon: '⚙️' },
   ];
 
   return (
@@ -74,21 +48,15 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         <div className="p-6 border-t border-indigo-800">
           <div className="flex items-center mb-4">
             <div className="w-10 h-10 rounded-full bg-indigo-700 flex items-center justify-center flex-shrink-0">
-              {user.first_name?.[0]}{user.last_name?.[0]}
+              G
             </div>
             {sidebarOpen && (
               <div className="ml-3 min-w-0">
-                <p className="text-sm font-medium truncate">{user.first_name} {user.last_name}</p>
-                <p className="text-xs text-indigo-300 truncate">{user.role}</p>
+                <p className="text-sm font-medium truncate">Guest User</p>
+                <p className="text-xs text-indigo-300 truncate">viewer</p>
               </div>
             )}
           </div>
-          <button
-            onClick={logout}
-            className="w-full bg-indigo-800 py-2 rounded-lg hover:bg-indigo-700 text-sm"
-          >
-            {sidebarOpen ? 'Sign Out' : '↪'}
-          </button>
         </div>
       </aside>
 
